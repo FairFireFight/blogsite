@@ -1,0 +1,10 @@
+body {
+    padding: 5vh 5px;
+    background-image: url('../images/login_background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.full-width {
+    width: 100%;
+}
