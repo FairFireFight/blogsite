@@ -76,7 +76,6 @@
             if (password_verify($password, $this->password_hash)) {
                 return true;
             }
-
             return false;
         }
 
@@ -130,6 +129,30 @@
             try {
                 $conn->query($sql);
                 return true;
+            } catch (mysqli_sql_exception) {
+                return false;
+            }
+        }
+
+        /**
+         * Inserts the provided UserModel into the database
+         * @return UserModel of the user if inserted successfully
+         * @return false if failed to insert
+         */
+        public static function create_user(UserModel $user) {
+            global $conn;
+
+            $un = $user->username;
+            $ph = $user->password_hash;
+            $em = $user->email;
+            $pl = $user->privilege_level;
+
+            $sql = "INSERT INTO users (username, password, email, privilage_level) 
+                    VALUES($un, $ph, $em, $pl)";
+
+            try {
+                $conn->query($sql);
+                return UserModel::get_user_by_email($em);
             } catch (mysqli_sql_exception) {
                 return false;
             }

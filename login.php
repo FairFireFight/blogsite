@@ -48,10 +48,10 @@
     </head>
     <body class="container-sm">
         <div class="row align-items-center justify-content-center">
-            <div class="col-lg-5 pt-5">
+            <div class="col-lg-5" style="padding-top: 12.5vh">
                 <div class="card panel">
                     <div class="card-body">
-                        <h2 class="card-title">Sign in</h2>
+                        <h2 class="card-title mt-2 pb-2">Sign in</h2>
                         <hr/>
                         <form id="form" method="post" action="login.php">
                             <div class="form-floating">
