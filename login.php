@@ -1,17 +1,37 @@
 <?php
+    require 'database/user_model.php';
+    
     session_start();
 
-    $email_isvalid = true;
-    $password_isvalid = true;
+    const EMAIL_PATTERN = '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
 
     if (isset($_POST['submit'])) {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $req_email = $_POST['email'];
+        $req_password = $_POST['password'];
+
+        $email_isvalid = true;
+        $password_isvalid = true;
 
         // check if email pattern is valid
-        $pattern = '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
-        if (!preg_match($pattern, $email)) {
-            $email_isvalid = false;
+        $email_isvalid = preg_match(EMAIL_PATTERN, $req_email);
+
+        if ($email_isvalid) {
+            $user = UserModel::get_user_by_email($req_email);
+
+            if ($user === false) {
+                $email_isvalid = false;
+            } else {
+                $password_isvalid = $user->verify_user_password($req_password);
+            }
+        }
+
+        // if everything is correct then assign session
+        // vars and redirect to home page.
+        if ($email_isvalid && $password_isvalid) {
+            $_SESSION['user'] = $user;
+            $_SESSION['authorized'] = true;
+
+            header("Location: /home.php");
         }
     }
 ?>
@@ -19,7 +39,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include("database/bootstraplink.html"); ?>
+        <?php include("common/bootstraplink.html"); ?>
         <link href="styles/login.css" rel="stylesheet"/>
 
         <meta charset="UTF-8">
@@ -27,8 +47,8 @@
         <title>Sign in</title>
     </head>
     <body class="container-sm">
-        <div class="row align-items-center">
-            <div class="col-lg-5">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-5 pt-5">
                 <div class="card panel">
                     <div class="card-body">
                         <h2 class="card-title">Sign in</h2>
@@ -39,7 +59,7 @@
                                 <label for="floatingInput">Email address</label>
                             </div>
                             <?php
-                                if (!$email_isvalid) {
+                                if (isset($_POST['submit']) && !$email_isvalid) {
                                     echo 
                                     '<div class="alert alert-danger alert-dismissible p-2 mt-2" role="alert">
                                         Invalid Email
@@ -54,7 +74,7 @@
                             </div>
 
                             <?php
-                                if (!$password_isvalid) {
+                                if (isset($_POST['submit']) && !$password_isvalid) {
                                     echo 
                                     '<div class="alert alert-danger alert-dismissible p-2 mt-2" role="alert">
                                         Wrong Password
