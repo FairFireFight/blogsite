@@ -17,6 +17,8 @@
         public static function get_user_by_id(int $id) {
             global $conn;
 
+            $id = mysqli_real_escape_string($conn, $id);
+
             $sql = "SELECT * FROM users
                     WHERE id = $id";
 
@@ -111,12 +113,12 @@
         public function commit_changes() {
             global $conn;
 
-            $id = $this->id;
-            $un = $this->username;
-            $ph = $this->password_hash;
-            $em = $this->email;
-            $pl = $this->privilege_level;
-            $vr = $this->verified;
+            $id = mysqli_real_escape_string($conn, $this->id);
+            $un = mysqli_real_escape_string($conn, $this->username);
+            $ph = mysqli_real_escape_string($conn, $this->password_hash);
+            $em = mysqli_real_escape_string($conn, $this->email);
+            $pl = mysqli_real_escape_string($conn, $this->privilege_level);
+            $vr = mysqli_real_escape_string($conn, $this->verified);
 
             $sql = "UPDATE users SET 
                     username = $un,
@@ -142,13 +144,12 @@
         public static function create_user(UserModel $user) {
             global $conn;
 
-            $un = $user->username;
-            $ph = $user->password_hash;
-            $em = $user->email;
-            $pl = $user->privilege_level;
+            $un = mysqli_real_escape_string($conn, $user->username);
+            $ph = mysqli_real_escape_string($conn, $user->password_hash);
+            $em = mysqli_real_escape_string($conn, $user->email);
 
-            $sql = "INSERT INTO users (username, password, email, privilage_level) 
-                    VALUES($un, $ph, $em, $pl)";
+            $sql = "INSERT INTO users (username, password, email) 
+                    VALUES('$un', '$ph', '$em')";
 
             try {
                 $conn->query($sql);
