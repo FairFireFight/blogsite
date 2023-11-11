@@ -1,5 +1,5 @@
 <?php
-    require 'database/user_model.php';
+    require 'mail_manager.php';
 
     session_start();
 
@@ -47,7 +47,9 @@
             $user->password_hash = password_hash($req_password, PASSWORD_BCRYPT);
             $user->privilege_level = 'user';
 
-            var_dump(UserModel::create_user($user));
+            $_SESSION['user'] = UserModel::create_user($user);
+            
+            header("Location: verify.php");
         }
     }
 ?>

@@ -8,6 +8,8 @@
         public String $privilege_level;
         public String $password_hash;
         public bool $verified;
+        public String $verification_code;
+        public DateTime $verification_expiry;
 
         /**
          * Get the user from their ID
@@ -35,6 +37,9 @@
             $user->email = $row['email'];
             $user->privilege_level = $row['privilege_level'];
             $user->password_hash = $row['password'];
+            $user->verified = $row['verified'];
+            $user->verification_code = $row['verification_code'];
+            $user->verification_expiry = new DateTime($row['verification_expiry']);
 
             return $user;
         }
@@ -65,7 +70,10 @@
             $user->email = $row['email'];
             $user->privilege_level = $row['privilege_level'];
             $user->password_hash = $row['password'];
-
+            $user->verified = $row['verified'];
+            $user->verification_code = $row['verification_code'] ? $row['verification_code'] : false ;
+            $user->verification_expiry = $row['verification_expiry'] ? new DateTime($row['verification_expiry']) : new DateTime('now');
+            
             return $user;
         }
 
@@ -87,8 +95,6 @@
          * @return false if error
          * @return true on success
          */
-
-        /* disabled for now
         public function set_verified() {
             global $conn;
             
@@ -98,6 +104,34 @@
 
             try {
                 $conn->query($sql);
+                return true;
+            } catch (mysqli_sql_exception) {
+                return false;
+            }
+        }
+
+        public function renew_verification() {
+            global $conn;
+
+            // generate 6 random digits for verification
+            $v_code = strtoupper(bin2hex(random_bytes(3)));
+
+            // 24 hour expiration time
+            $expiry_date = new DateTime('now');
+            $expiry_date->modify('+24 hours');
+            $expiry_date_string = $expiry_date->format('Y-m-d H:i:s');
+
+            $sql = "UPDATE users 
+                    SET verification_code = '$v_code', 
+                    verification_expiry = '$expiry_date_string'
+                    WHERE id = $this->id";
+
+            try {
+                $conn->query($sql);
+
+                $this->verification_code = $v_code;
+                $this->verification_expiry = $expiry_date;
+
                 return true;
             } catch (mysqli_sql_exception) {
                 return false;
@@ -134,6 +168,24 @@
             } catch (mysqli_sql_exception) {
                 return false;
             }
+        }
+
+        /**
+         * updates the current object to match the same data stored
+         * in the database
+         * 
+         * yes this is really bad code now
+         */
+        public function update() {
+            $new_user = UserModel::get_user_by_email($this->email);
+
+            $this->username = $new_user->username;
+            $this->email = $new_user->email;
+            $this->privilege_level = $new_user->privilege_level;
+            $this->password_hash = $new_user->password_hash;
+            $this->verified = $new_user->verified;
+            $this->verification_code = $new_user->verification_code;
+            $this->verification_expiry = $new_user->verification_expiry;
         }
 
         /**

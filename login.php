@@ -29,8 +29,13 @@
         // vars and redirect to home page.
         if ($email_isvalid && $password_isvalid) {
             $_SESSION['user'] = $user;
-            $_SESSION['authorized'] = true;
 
+            if (!$user->verified) {
+                header("Location: /verify.php");
+                exit;
+            }
+
+            $_SESSION['authorized'] = true;
             header("Location: /home.php");
         }
     }
