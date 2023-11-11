@@ -3,8 +3,8 @@
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-    require 'vendor/autoload.php';
-    require 'database/user_model.php';
+    require dirname(__DIR__) . '/vendor/autoload.php';
+    require 'user_model.php';
 
     $jsonData = file_get_contents('app_settings.json');
     $config = json_decode($jsonData, true);

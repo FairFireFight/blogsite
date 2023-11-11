@@ -1,5 +1,5 @@
 <?php
-    require 'mail_manager.php';
+    require 'database/mail_manager.php';
 
     session_start();
 
