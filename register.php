@@ -48,8 +48,9 @@
             $user->privilege_level = 'user';
 
             $_SESSION['user'] = UserModel::create_user($user);
-            
+
             header("Location: verify.php");
+            exit;
         }
     }
 ?>

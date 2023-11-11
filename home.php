@@ -6,6 +6,7 @@
 
     if (!isset($_SESSION['authorized'])) {
         header("Location: /login.php");
+        exit;
     } 
 
     $user = $_SESSION['user'];
