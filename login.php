@@ -62,7 +62,7 @@
                                 if (isset($_POST['submit']) && !$email_isvalid) {
                                     echo 
                                     '<div class="alert alert-danger alert-dismissible p-2 mt-2" role="alert">
-                                        Invalid Email
+                                        Invalid Email.
                                         <button class="btn-close m-1 p-2" aria-label="Close" data-bs-dismiss="alert"></button>
                                     </div>';
                                 }
@@ -77,7 +77,7 @@
                                 if (isset($_POST['submit']) && !$password_isvalid) {
                                     echo 
                                     '<div class="alert alert-danger alert-dismissible p-2 mt-2" role="alert">
-                                        Wrong Password
+                                        Wrong Password.
                                         <button class="btn-close m-1 p-2" aria-label="Close" data-bs-dismiss="alert"></button>
                                     </div>';
                                 }

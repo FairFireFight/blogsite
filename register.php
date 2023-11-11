@@ -85,7 +85,7 @@
                                 } elseif ($email_inuse) {
                                     echo '
                                     <div class="alert alert-danger alert-dismissible p-2 mt-2" role="alert">
-                                        Email already registed.
+                                        Email already registered.
                                         <button class="btn-close m-1 p-2" aria-label="Close" data-bs-dismiss="alert"></button>
                                     </div>
                                     ';
@@ -118,7 +118,7 @@
                                 if (!$password_isvalid) {
                                     echo '
                                     <div class="alert alert-danger alert-dismissible p-2 mt-2" role="alert">
-                                        Password does not satisfy critiera.
+                                        Password does not satisfy criteria .
                                         <button class="btn-close m-1 p-2" aria-label="Close" data-bs-dismiss="alert"></button>
                                     </div>
                                     ';
