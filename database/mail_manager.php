@@ -34,7 +34,7 @@
                     <hr/>
                     <h4>Welcome, $username!</h4>
                     <h4>Please click the link below to verify your email address.</h4>
-                    <h6>If you did not sign up yourself, <b>please ignore this email</b> and do not click the link.</h6>
+                    <h5>If you did not sign up yourself, <b>please ignore this email</b> and do not click the link.</h5>
                     <a href='$verification_link'>$verification_link</a>
                 </body>
             </html>
@@ -43,7 +43,7 @@
         try {
             $mail = new PHPMailer(true);
 
-            //Server settings
+            // Server settings
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
@@ -52,13 +52,13 @@
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
-            //Sender information
+            // Sender information
             $mail->setFrom($EMAIL_ADDRESS, $_SERVER['SERVER_NAME']);
             $mail->addAddress($user->email, $username);
 
-            //Content
+            // Content
             $mail->isHTML(true);
-            $mail->Subject = 'Subject of the email';
+            $mail->Subject = 'Email Confirmation';
             $mail->Body = $html_content;
 
             $mail_sent = $mail->send();

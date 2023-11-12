@@ -38,7 +38,13 @@
             $user->privilege_level = $row['privilege_level'];
             $user->password_hash = $row['password'];
             $user->verified = $row['verified'];
-            $user->verification_code = $row['verification_code'];
+
+            if ($row['verification_code']) {
+                $user->verification_code = $row['verification_code'];
+            } else {
+                unset($user->verification_code);
+            }
+            
             $user->verification_expiry = new DateTime($row['verification_expiry']);
 
             return $user;
@@ -99,7 +105,7 @@
             global $conn;
             
             $sql = "UPDATE users 
-                    SET verified = 1 
+                    SET verified = 1, verification_code = NULL
                     WHERE id = " . $this->id;
 
             try {
