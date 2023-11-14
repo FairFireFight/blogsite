@@ -35,7 +35,7 @@
                 exit;
             }
 
-            $_SESSION['authorized'] = true;
+            $_SESSION['authenticated'] = true;
             header("Location: /home.php");
             exit;
         }
