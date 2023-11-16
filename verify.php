@@ -32,7 +32,7 @@
         if ($_SESSION['user']->renew_verification()) {  
             send_verification_email($_SESSION['user']);
         } else {
-            header("Location: errors/500.html");
+            header("http");
             exit;
         }
     }

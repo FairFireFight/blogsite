@@ -36,10 +36,10 @@
 
                     <!-- Search box col -->
                     <div class="col-6 p-0">
-                        <form>
+                        <form action="home.php" method="get">
                             <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Search Bloggs..."/>
-                                <input type="submit" class="input-group-text" value="🔎" />
+                                <input id="search-bar" class="form-control" type="text" name="search" placeholder="Search Bloggs..." value='<?= isset($_GET['search']) ? $_GET['search'] : "" ?>'/>
+                                <input type="submit" class="input-group-text fw-semibold" value="Go 🔎" />
                             </div>
                         </form>
                     </div>

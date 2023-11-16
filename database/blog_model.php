@@ -89,12 +89,16 @@
             }
         }
 
-        public static function GetBlogs($page, $per_page) {
+        public static function GetBlogs($page, $per_page, String $search = "") {
             global $conn;
+
+            $search = mysqli_real_escape_string($conn, $search);
 
             $offset = ($page - 1) * $per_page;
 
             $sql = "SELECT * FROM blogs 
+                    WHERE title LIKE '%$search%'
+                       OR content LIKE '%$search%'
                     ORDER BY blog_time DESC 
                     LIMIT $per_page OFFSET $offset";
             try {

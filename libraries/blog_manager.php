@@ -21,11 +21,14 @@
 
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
-        
-        $blogs = BlogModel::GetBlogs($page, PER_PAGE);
-        reset($blogs);
+        $search = isset($_GET['search']) ? $_GET['search'] : "";
 
-        if ($user_id != false) { // add a liked key to each blog
+        $blogs = BlogModel::GetBlogs($page, PER_PAGE, $search);
+
+        reset($blogs);
+        
+        // add a liked key to each blog
+        if ($user_id != false) { 
             $liked_blogs = $_SESSION['user']->get_liked_blogs();
 
             foreach ($blogs as &$blog) {
