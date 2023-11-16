@@ -13,7 +13,7 @@
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
         
-        $blogs = BlogModel::GetBlogs($page, 12);
+        $blogs = BlogModel::GetBlogs($page, 5);
         reset($blogs);
 
         if ($user_id != false) { // add a liked key to each blog
