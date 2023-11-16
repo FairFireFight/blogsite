@@ -18,6 +18,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Home | Bloggers</title>
+
+        <style>
+            .blog-image {
+                object-fit: cover;
+            }
+        </style>
     </head>
 
     <body>
@@ -31,7 +37,12 @@
 
                     <!-- Search box col -->
                     <div class="col-6 p-0">
-                        <input class="form-control" type="text" placeholder="Search..."/>
+                        <form>
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="Search Bloggs..."/>
+                                <input type="submit" class="input-group-text" value="🔎" />
+                            </div>
+                        </form>
                     </div>
 
                     <!-- Profile / Buttons -->
@@ -51,25 +62,36 @@
                 <!-- Panel 1 (Larger on Medium and Larger Screens) -->
                 <div class="col-md-8" style="min-height: 100vh;">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Panel 1</h3>
+                        <div class="panel-heading d-flex justify-content-between align-items-center  mt-4">
+                            <h2 class="panel-title">Welcome, &lt;username&gt;!</h2>
+                            <a class="btn btn-primary" href="#">Blogg Something</a>
                         </div>
+                        <hr>
                         <div class="panel-body">
-                            <!-- Content for Panel 1 goes here -->
-                            <!-- Add your content here -->
+                            <div id="content-container">
+                                <!-- content loaded with JS goes here -->
+                                <?php include 'blog.html'; // placeholder blogg?>
+                                <?php include 'blog.html'; // placeholder blogg?>
+                                <?php include 'blog.html'; // placeholder bloggs?>
+                            </div>
+
+                            <!-- blog loading spinner -->
+                            <div class="d-flex align-items-center justify-content-center my-5">
+                                <p class="fs-5 fw-semibold mb-2 me-3">Loading Bloggs...</p>
+                                <div class="spinner-border"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Panel 2 (Smaller on Medium and Larger Screens) -->
-                <div class="col-md-4 bg-body-secondary" style="min-height: 100vh;">
+                <div class="col-md-4 border-start" style="min-height: 100vh;">
                     <div class="panel panel-secondary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Panel 2</h3>
                         </div>
                         <div class="panel-body">
-                            <!-- Content for Panel 2 goes here -->
-                            <!-- Add your content here -->
+                            
                         </div>
                     </div>
                 </div>
