@@ -15,15 +15,12 @@
 <html lang="en">
     <head>
         <?php require 'common/bootstraplink.html'?>
+        <link href="styles/home.css" rel="stylesheet"/>
+
+        <script defer src="/home.php.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Home | Bloggers</title>
-
-        <style>
-            .blog-image {
-                object-fit: cover;
-            }
-        </style>
     </head>
 
     <body>
@@ -70,9 +67,6 @@
                         <div class="panel-body">
                             <div id="content-container">
                                 <!-- content loaded with JS goes here -->
-                                <?php include 'blog.html'; // placeholder blogg?>
-                                <?php include 'blog.html'; // placeholder blogg?>
-                                <?php include 'blog.html'; // placeholder bloggs?>
                             </div>
 
                             <!-- blog loading spinner -->
@@ -85,7 +79,7 @@
                 </div>
 
                 <!-- Panel 2 (Smaller on Medium and Larger Screens) -->
-                <div class="col-md-4 border-start" style="min-height: 100vh;">
+                <div class="col-md-4 border-start d-none d-md-inline" style="min-height: 100vh;">
                     <div class="panel panel-secondary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Panel 2</h3>

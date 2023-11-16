@@ -1,0 +1,8 @@
+.blog-image {
+    object-fit: cover;
+}
+
+.card-body:hover {
+    background-color: #F5F5F5;
+    cursor: pointer;
+}
