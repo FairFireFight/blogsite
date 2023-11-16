@@ -1,6 +1,7 @@
 <?php
-    require 'database/mail_manager.php';
-
+    require_once 'database/mail_manager.php';
+    require_once 'database/user_model.php';
+    
     session_start();
 
     // the language of satan here don't fucking touch it

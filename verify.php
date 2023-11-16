@@ -5,6 +5,7 @@
 
     if (!isset($_SESSION['user'])) {
         header('Location: /register.php');
+        exit;
     }
 
     $verification_call = isset($_GET['t']);
