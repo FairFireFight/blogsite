@@ -1,9 +1,18 @@
 <?php
-    require_once 'blog_model.php';
-    require_once 'user_model.php';
+    require_once dirname(__DIR__) .'/database/blog_model.php';
+    require_once dirname(__DIR__) .'/database/user_model.php';
+
+    const PER_PAGE = 4;
 
     session_start();
 
+    /* disable for testing
+    if (!(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+        header("HTTP/1.1 403 Forbidden");
+        exit;
+    }
+    /* */
+    
     if (isset($_SESSION['authenticated'])) {
         $user_id = $_SESSION['user']->id;
     } else {
@@ -13,7 +22,7 @@
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
         
-        $blogs = BlogModel::GetBlogs($page, 5);
+        $blogs = BlogModel::GetBlogs($page, PER_PAGE);
         reset($blogs);
 
         if ($user_id != false) { // add a liked key to each blog

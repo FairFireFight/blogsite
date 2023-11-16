@@ -1,6 +1,3 @@
-let contentContainer = document.getElementById("content-container");
-
-
 function HeartBlog(e) {
     // handling the color of the button 
     if (e.classList.contains('btn-outline-danger')) {
@@ -13,19 +10,27 @@ function HeartBlog(e) {
 }
 
 let page = 1;
-
+let isActive = false
 function LoadMore() {
-    
+    let bottom = document.getElementById("container-bottom");
+
+    isActive = true;
     // Make the request and get the data for the page
     $.ajax({
-        url: 'database/blog_manager.php',
+        url: 'libraries/blog_manager.php',
         type: 'GET',
         data: {page: page},
         success: function (response) {
             let jsonArray = JSON.parse(response);
+            
+            if (jsonArray.length == 0) {
+                bottom.innerHTML = "<div class='w-100 text-center alert alert-warning fs-5'>😐 We can't find more Bloggs</div>";
+            } else {
+                bottom.innerHTML = "<div class='spinner-border'></div>"
+            }
 
             page++;
-
+            
             jsonArray.forEach(blog => {
                 let blogId = blog.id;
                 let blogAuthorId = blog.author_id;
@@ -53,7 +58,7 @@ function LoadMore() {
                     </div>`;
 
                 let blogHTMLModel = `
-                    <div class="card my-5"> 
+                    <div class="card my-3"> 
                         <a class="card-body px-5 text-decoration-none" href="/blogg?id=${blogId}">
                             <h3 class="card-title pb-2 fw-semibold border-bottom">${blogTitle}</h3>
                             <p class="card-text fs-5">${blogContent}</p>
@@ -71,15 +76,27 @@ function LoadMore() {
                     </div>`;
 
                 contentContainer.innerHTML += blogHTMLModel;
+                isActive = false;
             });
             
         },
         error: function (error) {
             console.error('Error:', error);
-            alert("failed to load more posts");
+            isActive = false;
+            bottom.innerHTML = "<button class='w-100 text-center alert alert-danger fs-5'>⛔ Failed to load more bloggs... Click to try again</button>"
         }
     });
-
-    
 }
 
+window.addEventListener('scroll', function () {
+    var distanceToBottom = document.documentElement.scrollHeight - (window.innerHeight + window.scrollY);
+    var threshold = 75;
+
+    if (distanceToBottom < threshold && !isActive) {
+        LoadMore();
+    }
+});
+
+// code to run when page starts here
+let contentContainer = document.getElementById("content-container");
+LoadMore();

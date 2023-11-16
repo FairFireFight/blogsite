@@ -72,8 +72,7 @@
                             </div>
 
                             <!-- blog loading spinner -->
-                            <div class="d-flex align-items-center justify-content-center my-5">
-                                <p class="fs-5 fw-semibold mb-2 me-3">Loading Bloggs...</p>
+                            <div id="container-bottom" class="d-flex align-items-center justify-content-center my-5">
                                 <div class="spinner-border"></div>
                             </div>
                         </div>
