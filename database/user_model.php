@@ -84,6 +84,24 @@
         }
 
         /**
+         * get an array of blog ids that the user hearted
+         */
+        public function get_liked_blogs() {
+            global $conn;
+
+            $sql = "SELECT blog_id FROM likes WHERE user_id = $this->id";
+            $result = $conn->query($sql);
+
+            $likes = array();
+
+            while ($row = $result->fetch_assoc()) {
+                $likes[] = $row["blog_id"];
+            }
+
+            return $likes;
+        }
+
+        /**
          * Verifies the provided password to the user's
          * @return true if the password matches
          * @return false password doesn't match

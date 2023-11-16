@@ -68,8 +68,54 @@
             return $blogs;
         }
 
-        public static function createNewBlog($author_id, $title, $content = "") {
+        /**
+         * @return bool success or failure
+         */
+        public static function createNewBlog($author_id, $title, $content) {
+            global $conn;
 
+            $author_id = mysqli_real_escape_string($conn, $author_id);
+            $title = mysqli_real_escape_string($conn, $title);
+            $content = mysqli_real_escape_string($conn, $content);
+
+            $sql = "INSERT INTO blogs(author_id, title, content)
+                    VALUES ($author_id, '$title', '$content')";
+            
+            try {
+                $conn->query($sql);
+                return true;
+            } catch (mysqli_sql_exception) {
+                return false;
+            }
+        }
+
+        public static function GetBlogs($page, $per_page) {
+            global $conn;
+
+            $offset = ($page - 1) * $per_page;
+
+            $sql = "SELECT * FROM blogs 
+                    ORDER BY blog_time DESC 
+                    LIMIT $per_page OFFSET $offset";
+            try {
+                $result = $conn->query($sql);
+            } catch (mysqli_sql_exception) {
+                return false;
+            }
+
+            $blogs = array();
+
+            while ($row = $result->fetch_assoc()) {
+                $id = $row["id"];
+                $author_id = $row["author_id"];
+                $title = $row["title"];
+                $content = $row["content"];
+                $blog_time = $row["blog_time"];
+
+                $blogs[] = array('id' => $id, 'author_id' => $author_id, 'title' => $title, 'content' => $content, 'time' => $blog_time);
+            }
+
+            return $blogs;
         }
     }
 ?>

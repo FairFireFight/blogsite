@@ -1,9 +1,9 @@
 <?php
     /*require 'database/user_model.php';
-
+    */
     session_start();
 
-
+    /*
     if (!isset($_SESSION['authenticated'])) {
         header("Location: /login.php");
         exit;
@@ -17,7 +17,9 @@
         <?php require 'common/bootstraplink.html'?>
         <link href="styles/home.css" rel="stylesheet"/>
 
+        <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script defer src="/home.php.js"></script>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Home | Bloggers</title>
@@ -85,7 +87,8 @@
                             <h3 class="panel-title">Panel 2</h3>
                         </div>
                         <div class="panel-body">
-                            
+                            <button onclick="LoadMore()">load more</button>
+                            <?php echo session_id()?>
                         </div>
                     </div>
                 </div>

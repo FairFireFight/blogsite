@@ -1,2 +1,4 @@
 app_settings.json
 vendor/
+node_modules/
+package-lock.json

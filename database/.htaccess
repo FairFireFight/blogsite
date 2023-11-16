@@ -1,5 +1,5 @@
 <Files "*">
     Order Deny,Allow
-    Deny from all
+    Deny from None
     Allow from localhost
 </Files>
