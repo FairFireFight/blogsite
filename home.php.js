@@ -44,7 +44,7 @@ function LoadMore() {
 
                 let blogHTMLModel = `
                     <div class="card my-3"> 
-                        <a class="card-body px-5 text-decoration-none" href="/blogg?id=${blog.id}">
+                        <a class="card-body px-5 text-decoration-none" href="/blogg.php?id=${blog.id}">
                             <h3 class="card-title pb-2 fw-semibold border-bottom">${blog.title}</h3>
                             <p class="card-text fs-5">${blog.content}</p>
                             ${imageCount > 0 ? imageContainer : ""}

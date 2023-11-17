@@ -27,17 +27,16 @@ $.ajax({
 
         let blogHTMLModel = `
             <div class="card my-3"> 
-                <a class="card-body px-5 text-decoration-none" href="/blogg?id=${blog.id}">
+                <div class="card-body px-5 text-decoration-none"">
                     <h3 class="card-title pb-2 fw-semibold border-bottom">${blog.title}</h3>
                     <p class="card-text fs-5">${blog.content}</p>
                     ${imageCount > 0 ? imageContainer : ""}
-                </a>
+                </div>
                 <div class="card-footer px-5">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center justify-content-start">
                             <div id="${blog.id}" class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blog.likes}</div>
                         </div>
-                        <p class="align-middle text-end m-0">${blog.time} / <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
                     </div>
                 </div>
             </div>`;

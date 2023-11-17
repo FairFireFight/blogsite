@@ -60,6 +60,7 @@
             }
             reset($blogs);
 
+            // add the number of likes
             foreach ($blogs as &$blog) {
                 $blog['likes'] = BlogModel::GetHeartsCount($blog['id']);
             }

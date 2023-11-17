@@ -49,29 +49,25 @@
         <div class="container-md">
             <div class="row">
                 <div id="blog-container" class="col-md-8" style="height: 100vh">
-                    
+                    <!-- JS generated blog HTML goes here -->
                 </div>
 
                 <div class="col-md-4 border-start" style="min-height: 100vh">
                     <div class="panel panel-secondary">
                         <div class="card my-4">
-                            <div class="card-header">
-                                <p class="text-center text-md-start m-0 p-1 fs-5">
-                                    Blogged 4 days ago.
-                                </p>
-                            </div>
                             <div class="card-body">
                                 <div class="container-md">
                                     <div class="row align-items-center justify-content-center">
                                         <div class="col-md-4">
                                             <div class="d-flex justify-content-center">
-                                                <img class="rounded-circle" style="max-width: 30vw; width: 100%;" src="/uploads/images/profile_pictures/default.jpg">
+                                                <img class="rounded-circle shadow" style="max-width: 30vw; width: 100%;" src="/uploads/images/profile_pictures/default.jpg">
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="text-center text-md-start">   
+                                                <h5 class="m-0">Blogged 4 days ago by:</h5>
                                                 <a class="fs-4" href="#">Authorname</a>
-                                                <h5>Member since: 2000/1/1</h5>
+                                                <h5 class="m-0">Member since: 2000/1/1</h5>
                                             </div>
                                         </div>
                                     </div>
