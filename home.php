@@ -9,6 +9,7 @@
         <link href="styles/home.css" rel="stylesheet"/>
 
         <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script defer src="/common.js"></script>
         <script defer src="/home.php.js"></script>
 
         <meta charset="UTF-8">

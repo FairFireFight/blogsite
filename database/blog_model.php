@@ -6,7 +6,8 @@
         public $author_id;
         public $title;
         public $content;
-        public $blog_time;
+        public $time;
+        public $liked;
 
         /**
          * @return BlogModel | false the blog, false if not found
@@ -31,7 +32,7 @@
             $blog->author_id = $row["author_id"];
             $blog->title = $row["title"];
             $blog->content = $row["content"];
-            $blog->blog_time = $row["blog-time"];
+            $blog->time = $row["blog_time"];
 
             return $blog;
         }
@@ -59,11 +60,10 @@
                 $blog->author_id = $row["author_id"];
                 $blog->title = $row["title"];
                 $blog->content = $row["content"];
-                $blog->blog_time = $row["blog_time"];
+                $blog->time = $row["blog_time"];
 
                 array_push($blogs, $blog);
             }
-
 
             return $blogs;
         }

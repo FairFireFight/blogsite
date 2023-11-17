@@ -21,6 +21,24 @@
 
     switch (true) {
         // handles infinite scroll loading of blogs
+        case isset($_GET['id']):
+        {
+            $blog = BlogModel::getBlogById($_GET['id']); 
+
+            $blog = json_decode(json_encode($blog), true);
+            
+            if ($user_id != false) { 
+                $liked_blogs = $_SESSION['user']->get_liked_blogs();
+                $blog['liked'] = in_array($blog['id'], $liked_blogs);
+            } else {
+                $blog['liked'] = false;
+            }
+
+            $blog['likes'] = BlogModel::GetHeartsCount($blog['id']);
+
+            echo json_encode($blog);
+            break;
+        }
         case isset($_GET['page']): 
         {
             $page = $_GET['page'];
