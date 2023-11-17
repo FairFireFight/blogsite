@@ -121,5 +121,61 @@
 
             return $blogs;
         }
+
+        /**
+         * hearts the blog.
+         * @return bool success status
+         */
+        public static function HeartBlog(int $blog_id, int $user_id) {
+            global $conn;
+
+            $check_heart_sql = "SELECT * FROM likes
+                                WHERE user_id = $user_id 
+                                AND blog_id = $blog_id";
+
+            $check_heart_result = $conn->query($check_heart_sql);
+
+            if ($check_heart_result->num_rows == 0) {
+                // add like record here.
+                $sql = "INSERT INTO likes VALUES
+                        ($user_id, $blog_id)";
+                try {
+                    $conn->query($sql);
+                } catch (mysqli_sql_exception) {
+                    return false;
+                }
+            } else {
+                // remove heart record here.
+                $sql = "DELETE FROM likes WHERE
+                        user_id = $user_id AND blog_id = $blog_id";
+                try {
+                    $conn->query($sql);
+                } catch (mysqli_sql_exception) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static function GetHeartsCount(int $blog_id) {
+            global $conn;
+
+            $sql = "SELECT count(blog_id) 'count' FROM likes WHERE blog_id = $blog_id";
+
+            try {
+                $result = $conn->query($sql);
+
+                return $result->fetch_assoc()['count'];
+            } catch (mysqli_sql_exception) {
+
+            }
+        }
+
+        public static function GetHearts(int $blog_id) {
+            global $conn;
+
+            $sql = "";
+        }
     }
 ?>

@@ -19,30 +19,55 @@
         $user_id = false;
     }
 
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-        $search = isset($_GET['search']) ? $_GET['search'] : "";
+    switch (true) {
+        // handles infinite scroll loading of blogs
+        case isset($_GET['page']): 
+        {
+            $page = $_GET['page'];
+            $search = isset($_GET['search']) ? $_GET['search'] : "";
 
-        $blogs = BlogModel::GetBlogs($page, PER_PAGE, $search);
+            $blogs = BlogModel::GetBlogs($page, PER_PAGE, $search);
+            
+            // add a liked key to each blog
+            if ($user_id != false) { 
+                $liked_blogs = $_SESSION['user']->get_liked_blogs();
 
-        reset($blogs);
-        
-        // add a liked key to each blog
-        if ($user_id != false) { 
-            $liked_blogs = $_SESSION['user']->get_liked_blogs();
+                foreach ($blogs as &$blog) {
+                    $blog['liked'] = in_array($blog['id'], $liked_blogs);
+                }
+            } else {
+                foreach ($blogs as &$blog) {
+                    $blog['liked'] = false;
+                }
+            }
+            reset($blogs);
 
             foreach ($blogs as &$blog) {
-                $blog['liked'] = in_array($blog['id'], $liked_blogs);
+                $blog['likes'] = BlogModel::GetHeartsCount($blog['id']);
             }
-        } else {
-            foreach ($blogs as &$blog) {
-                $blog['liked'] = false;
-            }
+
+            echo json_encode($blogs);
+            break;
         }
+        // handles hearting a blog
+        case isset($_POST['heart_blog']): 
+        {
+            if (!$user_id) {
+                echo "redirect";
+                exit;
+            }
 
-        echo json_encode($blogs);
-    } else {
-        header("HTTP/1.1 400 Bad Request");
-        exit;
+            $success = BlogModel::HeartBlog($_POST['heart_blog'], $user_id);
+
+            if ($success == false) {
+                echo "error";
+                exit;
+            }
+
+            break;
+        }
+        default:
+            header("HTTP/1.1 400 Bad Request");
+            exit;
     }
 ?>

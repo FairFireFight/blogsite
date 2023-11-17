@@ -1,11 +1,43 @@
+let heartActive = false;
 function HeartBlog(e) {
-    // handling the color of the button 
+    heartActive = true;
+    $.ajax({
+        url: 'libraries/blog_manager.php',
+        type: 'POST',
+        data: {heart_blog: e.id},
+        success: function (response) {
+            if (response == 'redirect') {
+                alert('You must sign up to heart Bloggs');
+                return;
+            }
+
+            if (response == 'error') {
+                alert('Failed to Heart Blogg 💔')
+                return;
+            }
+
+            heartActive = false;
+            HandleHeartBlogButton(e)
+        },
+        error: function (err) {
+            alert('Failed to Heart Blogg 💔')
+            console.error(err);
+            heartActive = false;
+        }
+    });
+}
+
+function HandleHeartBlogButton(e) {
     if (e.classList.contains('btn-outline-danger')) {
         e.classList.remove('btn-outline-danger');
         e.classList.add('btn-danger');
+
+        e.innerHTML = "❤ " + (parseInt(e.innerHTML.substring(2)) + 1);
     } else {
         e.classList.add('btn-outline-danger');
         e.classList.remove('btn-danger');
+
+        e.innerHTML = "❤ " + (parseInt(e.innerHTML.substring(2)) - 1);
     }
 }
 
@@ -37,7 +69,6 @@ function LoadMore() {
             page++;
             
             jsonArray.forEach(blog => {
-                let blogLikes = 0;
                 let blogComments = 0;
                 let imageCount = 0;
 
@@ -64,7 +95,7 @@ function LoadMore() {
                         <div class="card-footer px-5">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center justify-content-start">
-                                    <div class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blogLikes}</div>
+                                    <div id="${blog.id}" class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blog.likes}</div>
                                     <a class="btn btn-outline-secondary fw-semibold me-2 d-inline" href="/blogg?id=${blog.id}">💬 ${blogComments}</a>
                                 </div>
                                 <p class="align-middle text-end m-0">${blog.time} / <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
@@ -94,7 +125,7 @@ window.addEventListener('scroll', function () {
     }
 });
 
-// code to run when page starts here
+// code to run when page loads starts here
 let contentContainer = document.getElementById("content-container");
 let search = document.getElementById("search-bar").value;
 LoadMore();

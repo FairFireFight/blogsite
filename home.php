@@ -1,15 +1,6 @@
 <?php
-    /*require 'database/user_model.php';
-    */
+    require 'database/user_model.php';
     session_start();
-
-    /*
-    if (!isset($_SESSION['authenticated'])) {
-        header("Location: /login.php");
-        exit;
-    } 
-
-    $user = $_SESSION['user'];*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,8 +53,20 @@
                 <div class="col-md-8" style="min-height: 100vh;">
                     <div class="panel panel-primary">
                         <div class="panel-heading d-flex justify-content-between align-items-center  mt-4">
-                            <h2 class="panel-title">Welcome, &lt;username&gt;!</h2>
-                            <a class="btn btn-primary" href="#">Blogg Something</a>
+                            <h2 class="panel-title">
+                                <?php
+                                    if (isset($_SESSION['authenticated'])) {
+                                        echo "Welcome, " . $_SESSION['user']->username . "!";
+                                    } else {
+                                        echo "Welcome to Bloggers!";
+                                    }
+                                ?>
+                            </h2>
+                                <?php // blogg button
+                                    if (isset($_SESSION['authenticated'])) {
+                                        echo '<a class="btn btn-primary" href="#">Blogg Something</a>';
+                                    }
+                                ?>
                         </div>
                         <hr>
                         <div class="panel-body">
