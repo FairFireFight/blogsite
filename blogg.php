@@ -29,7 +29,7 @@
                 <div class="row justify-content-between align-items-center">
                     <!-- Site name col -->
                     <div class="col-3 p-0">
-                        <h2 class="p-0 fw-semibold">Bloggers</h2>
+                        <h2 class="p-0 fw-semibold"><a class="text-light text-decoration-none" href="home.php">Bloggers</a></h2>
                     </div>
 
                     <!-- Spacer col -->
@@ -66,8 +66,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="text-center text-md-start">   
-                                                <h5 class="m-0">Blogged <span id="time-since">{TIME SINCE}</span> ago by:</h5>
-                                                <a class="fs-4" href="#">Authorname</a>
+                                                <h5 class="m-0">Blogged <abbr id="time-since">  ago</abbr> by:</h5>
+                                                <a id="authorname" class="fs-4 fw-semibold" href="#"> </a>
                                             </div>
                                         </div>
                                     </div>

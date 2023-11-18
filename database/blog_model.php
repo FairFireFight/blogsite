@@ -101,6 +101,7 @@
             while ($row = $result->fetch_assoc()) {
                 $row['liked'] = false;
                 $row['likes'] = BlogModel::GetHeartsCount($row['id']);
+                $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
                 
                 $row['image_count'] = 0;
                 $row['comments'] = 4;

@@ -48,6 +48,11 @@ $.ajax({
         let timeElem = document.getElementById('time-since');
         timeElem.innerHTML = timeSince(new Date(blog.blog_time));
         timeElem.title = blog.blog_time;
+
+        // handle authorname
+        let authorElem = document.getElementById('authorname');
+        authorElem.innerHTML = blog.author;
+        authorElem.href = "profile?id=" + blog.author_id;
     },
     error: function(err) {
         console.log(err);
