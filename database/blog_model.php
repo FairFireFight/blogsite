@@ -2,21 +2,13 @@
     require 'connection.php';
 
     class BlogModel {
-        public $id;
-        public $author_id;
-        public $title;
-        public $content;
-        public $time;
-        public $liked;
-
         /**
-         * @return BlogModel | false the blog, false if not found
+         * @return array | false the blog, false if not found
          */
         public static function getBlogById($id) {
             global $conn;
 
             $sql = "SELECT * FROM blogs WHERE id = $id";
-
 
             $result = $conn->query($sql);
 
@@ -25,16 +17,13 @@
             }
 
             $row = $result->fetch_assoc();
+            $row['liked'] = false;
+            $row['likes'] = BlogModel::GetHeartsCount($row['id']);
 
-            $blog = new BlogModel();
+            $row['image_count'] = 0;
+            $row['comments'] = 4;
 
-            $blog->id = $row["id"];
-            $blog->author_id = $row["author_id"];
-            $blog->title = $row["title"];
-            $blog->content = $row["content"];
-            $blog->time = $row["blog_time"];
-
-            return $blog;
+            return $row;
         }
 
         /**
@@ -54,15 +43,13 @@
             $blogs = array();
 
             while ($row = $result->fetch_assoc()) {
-                $blog = new BlogModel();
-    
-                $blog->id = $row["id"];
-                $blog->author_id = $row["author_id"];
-                $blog->title = $row["title"];
-                $blog->content = $row["content"];
-                $blog->time = $row["blog_time"];
+                $row['liked'] = false;
+                $row['likes'] = BlogModel::GetHeartsCount($row['id']);
+                
+                $row['image_count'] = 0;
+                $row['comments'] = 4;
 
-                array_push($blogs, $blog);
+                array_push($blogs, $row);
             }
 
             return $blogs;
@@ -110,13 +97,13 @@
             $blogs = array();
 
             while ($row = $result->fetch_assoc()) {
-                $id = $row["id"];
-                $author_id = $row["author_id"];
-                $title = $row["title"];
-                $content = $row["content"];
-                $blog_time = $row["blog_time"];
+                $row['liked'] = false;
+                $row['likes'] = BlogModel::GetHeartsCount($row['id']);
+                
+                $row['image_count'] = 0;
+                $row['comments'] = 4;
 
-                $blogs[] = array('id' => $id, 'author_id' => $author_id, 'title' => $title, 'content' => $content, 'time' => $blog_time);
+                $blogs[] = $row;
             }
 
             return $blogs;
@@ -170,12 +157,6 @@
             } catch (mysqli_sql_exception) {
 
             }
-        }
-
-        public static function GetHearts(int $blog_id) {
-            global $conn;
-
-            $sql = "";
         }
     }
 ?>

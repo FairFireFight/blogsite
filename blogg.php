@@ -13,7 +13,8 @@
 <html lang="en">
     <head>
         <?php include 'common/bootstraplink.html'?>
-
+        <link href="styles/common.css" rel="stylesheet"/>
+        
         <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script defer src="/common.js"></script>
         <script defer src="/blogg.php.js"></script>
@@ -48,11 +49,11 @@
 
         <div class="container-md">
             <div class="row">
-                <div id="blog-container" class="col-md-8" style="height: 100vh">
+                <div id="blog-container" class="col-md-8 full-height">
                     <!-- JS generated blog HTML goes here -->
                 </div>
 
-                <div class="col-md-4 border-start" style="min-height: 100vh">
+                <div class="col-md-4 border-start full-height">
                     <div class="panel panel-secondary">
                         <div class="card my-4">
                             <div class="card-body">
@@ -65,9 +66,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="text-center text-md-start">   
-                                                <h5 class="m-0">Blogged 4 days ago by:</h5>
+                                                <h5 class="m-0">Blogged <span id="time-since">{TIME SINCE}</span> ago by:</h5>
                                                 <a class="fs-4" href="#">Authorname</a>
-                                                <h5 class="m-0">Member since: 2000/1/1</h5>
                                             </div>
                                         </div>
                                     </div>

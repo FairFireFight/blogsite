@@ -20,25 +20,22 @@
     }
 
     switch (true) {
-        // handles infinite scroll loading of blogs
+        // gets blog from ID
         case isset($_GET['id']):
         {
+            // convert BlogModel to Assoc Array (yeah it's this bad)
             $blog = BlogModel::getBlogById($_GET['id']); 
-
-            $blog = json_decode(json_encode($blog), true);
+            //$blog = json_decode(json_encode($blog), true);
             
             if ($user_id != false) { 
                 $liked_blogs = $_SESSION['user']->get_liked_blogs();
                 $blog['liked'] = in_array($blog['id'], $liked_blogs);
-            } else {
-                $blog['liked'] = false;
             }
-
-            $blog['likes'] = BlogModel::GetHeartsCount($blog['id']);
 
             echo json_encode($blog);
             break;
         }
+        // handles infinite scroll loading of blogs
         case isset($_GET['page']): 
         {
             $page = $_GET['page'];
@@ -53,16 +50,6 @@
                 foreach ($blogs as &$blog) {
                     $blog['liked'] = in_array($blog['id'], $liked_blogs);
                 }
-            } else {
-                foreach ($blogs as &$blog) {
-                    $blog['liked'] = false;
-                }
-            }
-            reset($blogs);
-
-            // add the number of likes
-            foreach ($blogs as &$blog) {
-                $blog['likes'] = BlogModel::GetHeartsCount($blog['id']);
             }
 
             echo json_encode($blogs);

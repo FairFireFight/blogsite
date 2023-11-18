@@ -7,6 +7,7 @@
     <head>
         <?php require 'common/bootstraplink.html'?>
         <link href="styles/home.css" rel="stylesheet"/>
+        <link href="styles/common.css" rel="stylesheet"/>
 
         <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script defer src="/common.js"></script>
@@ -51,7 +52,7 @@
         <div class="container-md">
             <div class="row">
                 <!-- Panel 1 (Larger on Medium and Larger Screens) -->
-                <div class="col-md-8" style="min-height: 100vh;">
+                <div class="col-md-8 full-height">
                     <div class="panel panel-primary">
                         <div class="panel-heading d-flex justify-content-between align-items-center  mt-4">
                             <h2 class="panel-title">
@@ -84,7 +85,7 @@
                 </div>
 
                 <!-- Panel 2 (Smaller on Medium and Larger Screens) -->
-                <div class="col-md-4 border-start d-none d-md-inline" style="min-height: 100vh;">
+                <div class="col-md-4 border-start d-none d-md-inline full-height">
                     <div class="panel panel-secondary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Panel 2</h3>

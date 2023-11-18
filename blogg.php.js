@@ -11,7 +11,8 @@ $.ajax({
     success: function(response) {
         blog = JSON.parse(response);
         
-        let imageCount = 0;
+        // load content
+        let imageCount = blog.image_count;
 
         let imageContainer = `
             <div class="container">
@@ -42,6 +43,11 @@ $.ajax({
             </div>`;
 
         container.innerHTML = blogHTMLModel;
+
+        // handle time display
+        let timeElem = document.getElementById('time-since');
+        timeElem.innerHTML = timeSince(new Date(blog.blog_time));
+        timeElem.title = blog.blog_time;
     },
     error: function(err) {
         console.log(err);

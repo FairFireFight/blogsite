@@ -26,12 +26,11 @@ function LoadMore() {
             page++;
             
             jsonArray.forEach(blog => {
-                let blogComments = 0;
-                let imageCount = 0;
+                let imageCount = blog.image_count;
 
                 // yes this is probably THE worst way you could do this.
                 let imageContainer = `
-                    <div class="container">
+                    <div class="container mx-auto w-75">
                         <div class="row">
                             ${imageCount >= 1 ? '<img class="blog-image col p-0" src="' + blog.id + '/1"/>' : ""}
                             ${imageCount >= 2 ? '<img class="blog-image col p-0" src="' + blog.id + '/2"/>' : ""}
@@ -53,9 +52,9 @@ function LoadMore() {
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div id="${blog.id}" class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blog.likes}</div>
-                                    <a class="btn btn-outline-secondary fw-semibold me-2 d-inline" href="/blogg?id=${blog.id}">💬 ${blogComments}</a>
+                                    <a class="btn btn-outline-secondary fw-semibold me-2 d-inline" href="/blogg?id=${blog.id}">💬 ${blog.comments}</a>
                                 </div>
-                                <p class="align-middle text-end m-0">${blog.time} / <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
+                                <p class="align-middle text-end m-0">${blog.blog_time} / <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
                             </div>
                         </div>
                     </div>`;
