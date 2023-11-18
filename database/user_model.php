@@ -13,8 +13,7 @@
 
         /**
          * Get the user from their ID
-         * @return UserModel object if a user is found
-         * @return false if no user is found
+         * @return UserModel | false object if a user is found
          */
         public static function get_user_by_id(int $id) {
             global $conn;
@@ -52,8 +51,7 @@
 
         /**
          * Get the user from their email address
-         * @return UserModel object if a user is found
-         * @return false if no user is found
+         * @return UserModel | false object if a user is found
          */
         public static function get_user_by_email(String $email) {
             global $conn;
@@ -116,8 +114,7 @@
 
         /**
          * sets the verified flag of the user to 1
-         * @return false if error
-         * @return true on success
+         * @return bool status
          */
         public function set_verified() {
             global $conn;
@@ -165,8 +162,7 @@
 
         /**
          * updates the user's information in the DB
-         * @return true on success
-         * @return false on error
+         * @return bool status
          */
         public function commit_changes() {
             global $conn;

@@ -32,6 +32,8 @@
                 $blog['liked'] = in_array($blog['id'], $liked_blogs);
             }
 
+            $blog['author'] = UserModel::get_user_by_id($blog['author_id'])->username;
+
             echo json_encode($blog);
             break;
         }
