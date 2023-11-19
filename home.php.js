@@ -28,6 +28,13 @@ function LoadMore() {
             jsonArray.forEach(blog => {
                 let imageCount = blog.image_count;
 
+                if (blog.content === null) {
+                    blog.content = '';
+                } else {
+                    blog.content = blog.content.replaceAll('\\r\\n','<br>');
+                }
+
+
                 // yes this is probably THE worst way you could do this.
                 let imageContainer = `
                     <div class="container mx-auto w-75">
@@ -44,15 +51,15 @@ function LoadMore() {
                 let blogHTMLModel = `
                     <div class="card my-3"> 
                         <a class="card-body px-5 text-decoration-none" href="/blogg.php?id=${blog.id}">
-                            <h3 class="card-title pb-2 fw-semibold border-bottom">${blog.title}</h3>
-                            <p class="card-text fs-5">${blog.content}</p>
+                            <h3 class="card-title fw-semibold ${blog.content == '' ? '' : 'border-bottom pb-2'}">${blog.title}</h3>
+                            <p class="card-text fs-5">${blog.content.substr(0, 256)}</p>
                             ${imageCount > 0 ? imageContainer : ""}
                         </a>
                         <div class="card-footer px-5">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div id="${blog.id}" class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blog.likes}</div>
-                                    <a class="btn btn-outline-secondary fw-semibold me-2 d-inline" href="/blogg?id=${blog.id}">💬 ${blog.comments}</a>
+                                    <a class="btn btn-outline-secondary fw-semibold me-2 d-inline" href="/blogg.php?id=${blog.id}">💬 ${blog.comments}</a>
                                 </div>
                                 <p class="align-middle text-end m-0">${blog.blog_time} / <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
                             </div>

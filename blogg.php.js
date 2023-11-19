@@ -11,6 +11,14 @@ $.ajax({
     success: function(response) {
         blog = JSON.parse(response);
         
+        if (blog.content === null) {
+            blog.content = '';
+        } else {
+            blog.content = blog.content.replaceAll('\\r\\n','<br>');
+        }
+
+        blog.content.replaceAll('\\r\\n','<br>');
+
         // load content
         let imageCount = blog.image_count;
 

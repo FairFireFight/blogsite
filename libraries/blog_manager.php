@@ -43,7 +43,7 @@
             $page = $_GET['page'];
             $search = isset($_GET['search']) ? $_GET['search'] : "";
 
-            $blogs = BlogModel::GetBlogs($page, PER_PAGE, $search);
+            $blogs = BlogModel::get_blogs($page, PER_PAGE, $search);
             
             // add a liked key to each blog
             if ($user_id != false) { 
@@ -65,7 +65,7 @@
                 exit;
             }
 
-            $success = BlogModel::HeartBlog($_POST['heart_blog'], $user_id);
+            $success = BlogModel::heart_blog($_POST['heart_blog'], $user_id);
 
             if ($success == false) {
                 echo "error";

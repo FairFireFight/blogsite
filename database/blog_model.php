@@ -17,9 +17,12 @@
             }
 
             $row = $result->fetch_assoc();
+
+            $row['content'] = nl2br($row['content']);
+            
             $row['liked'] = false;
             $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
-            $row['likes'] = BlogModel::GetHeartsCount($row['id']);
+            $row['likes'] = BlogModel::get_hearts_count($row['id']);
 
             $row['image_count'] = 0;
             $row['comments'] = 4;
@@ -30,7 +33,7 @@
         /**
          * @return array | false the blog, false if not found
          */
-        public static function getBlogsByAuthorId($author_id) {
+        public static function get_blogs_by_author_id($author_id) {
             global $conn;
 
             $sql = "SELECT * FROM blogs WHERE author_id = $author_id";
@@ -44,8 +47,10 @@
             $blogs = array();
 
             while ($row = $result->fetch_assoc()) {
+                $row['content'] = nl2br($row['content']);
+
                 $row['liked'] = false;
-                $row['likes'] = BlogModel::GetHeartsCount($row['id']);
+                $row['likes'] = BlogModel::get_hearts_count($row['id']);
                 $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
 
                 $row['image_count'] = 0;
@@ -58,27 +63,29 @@
         }
 
         /**
-         * @return bool success or failure
+         * @return int | false the ID of the created blog, or failure
          */
-        public static function createNewBlog($author_id, $title, $content) {
+        public static function create_blog($author_id, $title, $content) {
             global $conn;
 
             $author_id = mysqli_real_escape_string($conn, $author_id);
             $title = mysqli_real_escape_string($conn, $title);
             $content = mysqli_real_escape_string($conn, $content);
 
-            $sql = "INSERT INTO blogs(author_id, title, content)
-                    VALUES ($author_id, '$title', '$content')";
-            
+            $id = rand(1000000, 9999999);
+
+            $sql = "INSERT INTO blogs(id, author_id, title, content)
+                    VALUES ($id, $author_id, '$title', '$content')";
+
             try {
                 $conn->query($sql);
-                return true;
+                return $id;
             } catch (mysqli_sql_exception) {
                 return false;
             }
         }
 
-        public static function GetBlogs($page, $per_page, String $search = "") {
+        public static function get_blogs($page, $per_page, String $search = "") {
             global $conn;
 
             $search = mysqli_real_escape_string($conn, $search);
@@ -99,8 +106,10 @@
             $blogs = array();
 
             while ($row = $result->fetch_assoc()) {
+                $row['content'] = nl2br($row['content']);
+
                 $row['liked'] = false;
-                $row['likes'] = BlogModel::GetHeartsCount($row['id']);
+                $row['likes'] = BlogModel::get_hearts_count($row['id']);
                 $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
                 
                 $row['image_count'] = 0;
@@ -116,7 +125,7 @@
          * hearts the blog.
          * @return bool success status
          */
-        public static function HeartBlog(int $blog_id, int $user_id) {
+        public static function heart_blog(int $blog_id, int $user_id) {
             global $conn;
 
             $check_heart_sql = "SELECT * FROM likes
@@ -148,7 +157,7 @@
             return true;
         }
 
-        public static function GetHeartsCount(int $blog_id) {
+        public static function get_hearts_count(int $blog_id) {
             global $conn;
 
             $sql = "SELECT count(blog_id) 'count' FROM likes WHERE blog_id = $blog_id";
