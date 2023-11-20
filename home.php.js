@@ -52,7 +52,7 @@ function LoadMore() {
                     <div class="card my-3"> 
                         <a class="card-body px-5 text-decoration-none" href="/blogg.php?id=${blog.id}">
                             <h3 class="card-title fw-semibold ${blog.content == '' ? '' : 'border-bottom pb-2'}">${blog.title}</h3>
-                            <p class="card-text fs-5">${blog.content.substr(0, 256)}</p>
+                            <p id='${blog.id}'class="card-text fs-5">${blog.content.substr(0, 512)}</p>
                             ${imageCount > 0 ? imageContainer : ""}
                         </a>
                         <div class="card-footer px-5">
@@ -67,6 +67,13 @@ function LoadMore() {
                     </div>`;
 
                 contentContainer.innerHTML += blogHTMLModel;
+                
+                // if the <p> element is taller than 120 pixels add the fade effect
+                let parElem = document.getElementById(blog.id);
+                if (parseFloat(window.getComputedStyle(parElem).height) > 120) {
+                    parElem.classList.add('p-fade');
+                }
+
                 isActive = false;
             });
             
@@ -74,7 +81,7 @@ function LoadMore() {
         error: function (error) {
             console.error('Error:', error);
             isActive = false;
-            bottom.innerHTML = "<button class='w-100 text-center alert alert-danger fs-5'>⛔ Failed to load more bloggs... Click to try again</button>"
+            bottom.innerHTML = "<button class='w-100 text-center alert alert-danger fs-5'>❌ Failed to load more bloggs... Click to try again</button>"
         }
     });
 }
@@ -87,6 +94,13 @@ window.addEventListener('scroll', function () {
         LoadMore();
     }
 });
+function HandleGradient() {
+    for (let i = 0; i < elements.length; i++) {
+        if (elements[i].offsetHeight > 10 * parseFloat(getComputedStyle(document.documentElement).fontSize)) {
+            elements[i].classList.add('p-hidden');
+        };
+    };
+}
 
 // code to run when page loads starts here
 let contentContainer = document.getElementById("content-container");
