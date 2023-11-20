@@ -18,7 +18,8 @@
 
             $row = $result->fetch_assoc();
 
-            $row['content'] = nl2br($row['content']);
+            $row['title'] = stripslashes(nl2br($row['title']));
+            $row['content'] = stripslashes(nl2br($row['content']));
             
             $row['liked'] = false;
             $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
@@ -47,7 +48,8 @@
             $blogs = array();
 
             while ($row = $result->fetch_assoc()) {
-                $row['content'] = nl2br($row['content']);
+                $row['title'] = stripslashes(nl2br($row['title']));
+                $row['content'] = stripslashes(nl2br($row['content']));
 
                 $row['liked'] = false;
                 $row['likes'] = BlogModel::get_hearts_count($row['id']);
@@ -106,7 +108,8 @@
             $blogs = array();
 
             while ($row = $result->fetch_assoc()) {
-                $row['content'] = nl2br($row['content']);
+                $row['title'] = stripslashes(nl2br($row['title']));
+                $row['content'] = stripslashes(nl2br($row['content']));
 
                 $row['liked'] = false;
                 $row['likes'] = BlogModel::get_hearts_count($row['id']);

@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="content-input" class="form-label">Content</label>
-                                    <textarea id="content-input" name="content" class="form-control" placeholder="Text (Optional)"></textarea>
+                                    <textarea id="content-input" name="content" class="form-control" placeholder="Text (Optional)" style="height: 30vh"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="file" class="form-label">Choose Image(s)</label>

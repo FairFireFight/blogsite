@@ -70,7 +70,8 @@ function LoadMore() {
                 
                 // if the <p> element is taller than 120 pixels add the fade effect
                 let parElem = document.getElementById(blog.id);
-                if (parseFloat(window.getComputedStyle(parElem).height) > 120) {
+                let computedStyle = window.getComputedStyle(parElem);
+                if (parseFloat(computedStyle.height) >  parseFloat(computedStyle.width) / 5) {
                     parElem.classList.add('p-fade');
                 }
 
@@ -94,13 +95,6 @@ window.addEventListener('scroll', function () {
         LoadMore();
     }
 });
-function HandleGradient() {
-    for (let i = 0; i < elements.length; i++) {
-        if (elements[i].offsetHeight > 10 * parseFloat(getComputedStyle(document.documentElement).fontSize)) {
-            elements[i].classList.add('p-hidden');
-        };
-    };
-}
 
 // code to run when page loads starts here
 let contentContainer = document.getElementById("content-container");
