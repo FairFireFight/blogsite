@@ -27,6 +27,11 @@
             $blog = BlogModel::getBlogById($_GET['id']); 
             //$blog = json_decode(json_encode($blog), true);
             
+            if ($blog === false) {
+                echo "redirect";
+                exit;
+            }
+
             if ($user_id != false) { 
                 $liked_blogs = $_SESSION['user']->get_liked_blogs();
                 $blog['liked'] = in_array($blog['id'], $liked_blogs);

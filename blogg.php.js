@@ -9,12 +9,16 @@ $.ajax({
     method: "GET",
     data: {id: id},
     success: function(response) {
+
+        if (response === 'redirect') {
+            window.location.href = "/home.php";
+            return;
+        }
+
         blog = JSON.parse(response);
         
         if (blog.content === null) {
             blog.content = '';
-        } else {
-            blog.content = blog.content.replaceAll('\\r\\n','<br>');
         }
 
         blog.content.replaceAll('\\r\\n','<br>');
@@ -51,6 +55,10 @@ $.ajax({
             </div>`;
 
         container.innerHTML = blogHTMLModel;
+
+        // comment header
+        let commentHeader = document.getElementById('comment-header');
+        commentHeader.innerHTML = `${blog.comments} Comment${blog.comments === 1 ? '' : 's'}`;
 
         // handle time display
         let timeElem = document.getElementById('time-since');
