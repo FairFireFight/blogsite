@@ -5,7 +5,7 @@
         /**
          * @return array | false the blog, false if not found
          */
-        public static function getBlogById($id) {
+        public static function get_blog($id) {
             global $conn;
 
             $sql = "SELECT * FROM blogs WHERE id = $id";
@@ -23,10 +23,10 @@
             
             $row['liked'] = false;
             $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
-            $row['likes'] = BlogModel::get_hearts_count($row['id']);
+            $row['likes'] = BlogModel::get_heart_count($row['id']);
 
             $row['image_count'] = 0;
-            $row['comments'] = 4;
+            $row['comments'] = BlogModel::get_comment_count($row['id']);
 
             return $row;
         }
@@ -52,11 +52,11 @@
                 $row['content'] = stripslashes(nl2br($row['content']));
 
                 $row['liked'] = false;
-                $row['likes'] = BlogModel::get_hearts_count($row['id']);
+                $row['likes'] = BlogModel::get_heart_count($row['id']);
                 $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
 
                 $row['image_count'] = 0;
-                $row['comments'] = 4;
+                $row['comments'] = BlogModel::get_comment_count($row['id']);
 
                 array_push($blogs, $row);
             }
@@ -112,11 +112,11 @@
                 $row['content'] = stripslashes(nl2br($row['content']));
 
                 $row['liked'] = false;
-                $row['likes'] = BlogModel::get_hearts_count($row['id']);
+                $row['likes'] = BlogModel::get_heart_count($row['id']);
                 $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
                 
                 $row['image_count'] = 0;
-                $row['comments'] = 4;
+                $row['comments'] = BlogModel::get_comment_count($row['id']);
 
                 $blogs[] = $row;
             }
@@ -160,7 +160,7 @@
             return true;
         }
 
-        public static function get_hearts_count(int $blog_id) {
+        public static function get_heart_count(int $blog_id) {
             global $conn;
 
             $sql = "SELECT count(blog_id) 'count' FROM likes WHERE blog_id = $blog_id";
@@ -170,7 +170,21 @@
 
                 return $result->fetch_assoc()['count'];
             } catch (mysqli_sql_exception) {
+                return 0;
+            }
+        }
 
+        public static function get_comment_count(int $blog_id) {
+            global $conn;
+
+            $sql = "SELECT count(blog_id) 'count' FROM comments WHERE blog_id = $blog_id";
+
+            try {
+                $result = $conn->query($sql);
+
+                return $result->fetch_assoc()['count'];
+            } catch (mysqli_sql_exception) {
+                return 0;
             }
         }
     }

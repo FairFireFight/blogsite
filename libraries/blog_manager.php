@@ -23,7 +23,7 @@
         // gets blog from ID
         case isset($_GET['id']):
         {
-            $blog = BlogModel::getBlogById($_GET['id']); 
+            $blog = BlogModel::get_blog($_GET['id']); 
             
             if ($blog === false) {
                 echo "redirect";

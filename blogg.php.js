@@ -39,7 +39,7 @@ $.ajax({
             </div>`;
 
         let blogHTMLModel = `
-            <div class="card my-3"> 
+            <div class="card my-3 w-100"> 
                 <div class="card-body px-5 text-decoration-none"">
                     <h3 class="card-title pb-2 fw-semibold border-bottom">${blog.title}</h3>
                     <p class="card-text fs-5">${blog.content}</p>

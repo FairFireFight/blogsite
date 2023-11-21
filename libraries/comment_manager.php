@@ -29,7 +29,7 @@
                 if ($model = CommentModel::create_comment($blog_id, $user_id, $comment)) {
                     echo json_encode($model);
                 } else {
-                    echo 'failed';
+                    echo false;
                 }
             }
             break;
@@ -39,10 +39,14 @@
             echo json_encode($comments);
             break;
         case isset($_GET['user_id']):
-            
+            $comments = CommentModel::get_comments_by_user_id($_GET['user_id']);
+
+            echo json_encode($comments);
             break;
         case isset($_GET['delete']):
-            
+            $result = CommentModel::remove_comment($_GET['delete']);
+
+            echo $result;
             break;
         default:
             header("HTTP/1.1 400 Bad Request");

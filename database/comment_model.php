@@ -55,7 +55,8 @@
             global $conn;
 
             $sql = "SELECT * FROM comments 
-                    WHERE blog_id = $user_id";
+                    WHERE user_id = $user_id
+                    ORDER BY time DESC";
             try {
                 $result = $conn->query($sql);
             } catch (mysqli_sql_exception) {
@@ -86,7 +87,7 @@
             }
 
             $row = $result->fetch_assoc();
-            
+
             $row['text'] = stripslashes(nl2br($row['text']));
             return $row;
         }
