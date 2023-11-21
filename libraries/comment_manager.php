@@ -21,6 +21,7 @@
     $user_id = 8536936;
 
     switch(true) {
+        // create a comment
         case isset($_GET['comment']):
             if ($user_id) {
                 $comment = $_GET['comment'];
@@ -33,21 +34,29 @@
                 }
             }
             break;
+            
+        // get the comments under blog_id
         case isset($_GET['blog_id']):
             $comments = CommentModel::get_comments_by_blog_id($_GET['blog_id']);
 
             echo json_encode($comments);
             break;
+
+        // get the comments of the user
         case isset($_GET['user_id']):
             $comments = CommentModel::get_comments_by_user_id($_GET['user_id']);
 
             echo json_encode($comments);
             break;
+
+        // delete the comment
         case isset($_GET['delete']):
             $result = CommentModel::remove_comment($_GET['delete']);
 
             echo $result;
             break;
+
+        // bad request
         default:
             header("HTTP/1.1 400 Bad Request");
             exit;

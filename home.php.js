@@ -61,7 +61,7 @@ function LoadMore() {
                                     <div id="${blog.id}" class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blog.likes}</div>
                                     <a class="btn btn-outline-secondary fw-semibold me-2 d-inline" href="/blogg.php?id=${blog.id}">💬 ${blog.comments}</a>
                                 </div>
-                                <p class="align-middle text-end m-0">${blog.blog_time} / <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
+                                <p class="align-middle text-end m-0">${timeSince(new Date(blog.blog_time))} by <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
                             </div>
                         </div>
                     </div>`;
