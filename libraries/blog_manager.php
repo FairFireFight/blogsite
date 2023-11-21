@@ -23,9 +23,7 @@
         // gets blog from ID
         case isset($_GET['id']):
         {
-            // convert BlogModel to Assoc Array (yeah it's this bad)
             $blog = BlogModel::getBlogById($_GET['id']); 
-            //$blog = json_decode(json_encode($blog), true);
             
             if ($blog === false) {
                 echo "redirect";
