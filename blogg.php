@@ -66,15 +66,15 @@
                 <div class="col-md-4">
                     <div class="panel panel-secondary">
                         <div class="card my-3">
-                            <div class="card-body">
+                            <div class="card-body pe-0">
                                 <div class="container-md">
-                                    <div class="row align-items-center justify-content-center">
-                                        <div class="offset-md-1 col-4">
+                                    <div class="row align-items-center justify-content-start">
+                                        <div class="col-4">
                                             <div class="d-flex justify-content-center">
                                                 <img class="rounded-circle shadow" style="max-width: 20vw; width: 100%;" src="/uploads/images/profile_pictures/default.jpg">
                                             </div>
                                         </div>
-                                        <div class="col-7">
+                                        <div class="col-7 pe-0">
                                             <div class="text-start">   
                                                 <h5 class="m-0">Blogged <abbr id="time-since">  ago</abbr> by:</h5>
                                                 <a id="authorname" class="fs-4 fw-semibold" href="#"> </a>
@@ -92,17 +92,17 @@
                     <?php
                         if ($user_id) {
                     ?>
-                        <div class="card w-100">
-                            <div class="card-body py-1">
-                                <form id="comment-form">
-                                    <div class="d-flex w-100 justify-content-between my-1">
-                                        <lable for="comment-input" class="fs-3">Leave a comment:</lable>
-                                        <button type="button" class="btn btn-primary fw-semibold" onclick="SendComment()" form="comment-form">Comment</button>
-                                    </div>
-                                    <textarea id="comment-input" class="form-control mb-1"></textarea>
-                                </form>
-                            </div>
+                        
+                        <div class="w-100">
+                            <form id="comment-form">
+                                <div class="d-flex w-100 justify-content-between align-items-end my-1">
+                                    <lable for="comment-input" class="fs-5 align-bottom">Comment as <?= $_SESSION['user']->username?></lable>
+                                    <button type="button" class="btn btn-primary fw-semibold" onclick="SendComment()" form="comment-form">Comment</button>
+                                </div>
+                                <textarea id="comment-input" class="form-control mb-1" placeholder="Text" ></textarea>
+                            </form>
                         </div>
+                        
                     <?php
                         } else {
                     ?>
@@ -118,7 +118,7 @@
                         </h2>
                         <hr/>
                         <div id="comment-container">
-                            
+                            <!-- Generated comments go here-->
                         </div>
                     </div>
                 </div>

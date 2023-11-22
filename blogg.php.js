@@ -21,8 +21,6 @@ $.ajax({
             blog.content = '';
         }
 
-        blog.content.replaceAll('\\r\\n','<br>');
-
         // load content
         let imageCount = blog.image_count;
 
@@ -40,7 +38,7 @@ $.ajax({
 
         let blogHTMLModel = `
             <div class="card my-3 w-100"> 
-                <div class="card-body px-5 text-decoration-none"">
+                <div class="card-body px-4 text-decoration-none"">
                     <h3 class="card-title pb-2 fw-semibold border-bottom">${blog.title}</h3>
                     <p class="card-text fs-5">${blog.content}</p>
                     ${imageCount > 0 ? imageContainer : ""}
@@ -110,7 +108,7 @@ function SendComment() {
     });
 }
 
-function AddComment(comment) {
+function AddComment(comment, toTop = false) {
     let commentHtml = `
         <div class="card mt-2 mb-3">
             <div class="card-body py-1">
@@ -120,7 +118,7 @@ function AddComment(comment) {
                     </div>
                     <div class="mx-2 w-100">
                         <div class="d-flex justify-content-between align-items-center">
-                            <p class="fs-4 mb-0 mt-1">${comment.username}:</p>
+                            <p class="fs-4 mb-0 mt-1">${comment.username}</p>
                             <p title="${comment.time}" class="text-body-secondary fs-6 mb-0 mt-1">${timeSince(new Date(comment.time))}</p>
                         </div>
                         <hr class="my-2">
@@ -130,9 +128,15 @@ function AddComment(comment) {
             </div>
         </div>`;
 
+        
     let commentContainer = document.getElementById('comment-container');
-    commentContainer.innerHTML += commentHtml;
+    if (toTop) {
+        commentContainer.innerHTML = commentHtml + commentContainer.innerHTML;
+    } else {
+        commentContainer.innerHTML += commentHtml;
+    }
 }
+    
 
 let loadActive = false;
 function LoadComments() {

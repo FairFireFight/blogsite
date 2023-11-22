@@ -57,8 +57,8 @@
                                 if (isset($_POST['submit'])) {
                                     $author = $_SESSION['user']->id;
 
-                                    $title = mysqli_real_escape_string($conn, $_POST['title']);
-                                    $content = mysqli_real_escape_string($conn, $_POST['content']);
+                                    $title = $_POST['title'];
+                                    $content = $_POST['content'];
                                     
                                     $title_valid = strlen($title) > 5;
 
