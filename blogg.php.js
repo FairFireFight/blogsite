@@ -1,5 +1,5 @@
 let searchParams = new URLSearchParams(window.location.search);
-let id = parseInt(searchParams.get('id'));
+let blogId = parseInt(searchParams.get('id'));
 
 let container = document.getElementById("blog-container");
 
@@ -7,7 +7,7 @@ let blog;
 $.ajax({
     url: "libraries/blog_manager.php",
     method: "GET",
-    data: {id: id},
+    data: {id: blogId},
     success: function(response) {
 
         if (response === 'redirect') {
@@ -74,3 +74,92 @@ $.ajax({
         console.log(err);
     }
 });
+
+
+let commentActive = false;
+function SendComment() {
+    let text = document.getElementById("comment-input").value;
+
+    if (text.length == 0) {
+        alert("Comment can not be empty.");
+        return;
+    }
+
+    commentActive = true;
+    $.ajax({
+        url: 'libraries/comment_manager.php',
+        type: 'GET',
+        data: {comment: text,
+               blog_id: blogId},
+        success: function (response) {
+            if (response == 'false') {
+                return;
+            }
+
+            response = JSON.parse(response);
+
+            AddComment(response);
+
+            commentActive = false;
+        },
+        error: function (err) {
+            alert('Failed to comment 💔')
+            console.error(err);
+            commentActive = false;
+        }
+    });
+}
+
+function AddComment(comment) {
+    let commentHtml = `
+        <div class="card mt-2 mb-3">
+            <div class="card-body py-1">
+                <div class="d-flex">
+                    <div class="ms-0 me-2">
+                        <img class="rounded-circle shadow mt-2" style="max-width: 30vw; width: 50px;" src="/uploads/images/profile_pictures/default.jpg">
+                    </div>
+                    <div class="mx-2 w-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="fs-4 mb-0 mt-1">${comment.username}:</p>
+                            <p title="${comment.time}" class="text-body-secondary fs-6 mb-0 mt-1">${timeSince(new Date(comment.time))}</p>
+                        </div>
+                        <hr class="my-2">
+                        <p class="fs-5 mb-2">${comment.text}</p>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    let commentContainer = document.getElementById('comment-container');
+    commentContainer.innerHTML += commentHtml;
+}
+
+let loadActive = false;
+function LoadComments() {
+    loadActive = true;
+    $.ajax({
+        url: 'libraries/comment_manager.php',
+        type: 'GET',
+        data: {blog_id: blogId},
+        success: function (response) {
+            if (response == 'false') {
+                return;
+            }
+
+            response = JSON.parse(response);
+
+            response.forEach(comment => {
+                AddComment(comment);
+            });
+
+            loadActive = false;
+        },
+        error: function (err) {
+            alert('Failed to comment 💔')
+            console.error(err);
+            loadActive = false;
+        }
+    });
+}
+
+LoadComments();

@@ -1,5 +1,6 @@
 <?php
-    require 'connection.php';
+    require_once 'connection.php';
+    require_once 'user_model.php';
 
     class CommentModel {
         public static function create_comment($blog_id, $author_id, $comment) {
@@ -45,7 +46,8 @@
             $comments = array();
             while ($row = $result->fetch_assoc()) {
                 $row['text'] = stripslashes(nl2br($row['text']));
-
+                $row['username'] = UserModel::get_user_by_id($row['user_id'])->username;
+                
                 array_push($comments, $row);
             }
 
@@ -66,6 +68,7 @@
             $comments = array();
             while ($row = $result->fetch_assoc()) {
                 $row['text'] = stripslashes(nl2br($row['text']));
+                $row['username'] = UserModel::get_user_by_id($row['user_id'])->username;
 
                 array_push($comments, $row);
             }
@@ -89,6 +92,8 @@
             $row = $result->fetch_assoc();
 
             $row['text'] = stripslashes(nl2br($row['text']));
+            $row['username'] = UserModel::get_user_by_id($row['user_id'])->username;
+
             return $row;
         }
     }

@@ -17,9 +17,6 @@
         $user_id = false;
     }
 
-    // remember to remove! ⛔⛔⛔⛔⛔⛔⛔⛔
-    $user_id = 8536936;
-
     switch(true) {
         // create a comment
         case isset($_GET['comment']):
@@ -32,6 +29,8 @@
                 } else {
                     echo false;
                 }
+            } else {
+                echo false;
             }
             break;
             
