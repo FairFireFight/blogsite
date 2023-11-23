@@ -37,7 +37,7 @@ function LoadMore() {
 
                 // yes this is probably THE worst way you could do this.
                 let imageContainer = `
-                    <div class="container px-5">
+                    <div class="container px-md-5">
                         <div class="row">
                             ${imageCount >= 1 ? '<img class="blog-image col rounded m-1 p-0" src="uploads/images/content/' + blog.id + '/' + blog.images[0] + '"/>' : ""}
                             ${imageCount >= 2 ? '<img class="blog-image col rounded m-1 p-0" src="uploads/images/content/' + blog.id + '/' + blog.images[1] + '"/>' : ""}
@@ -50,12 +50,12 @@ function LoadMore() {
 
                 let blogHTMLModel = `
                     <div class="card my-3"> 
-                        <a class="card-body px-5 text-decoration-none" href="/blogg.php?id=${blog.id}">
+                        <a class="card-body px-md-5 text-decoration-none" href="/blogg.php?id=${blog.id}">
                             <h3 class="card-title fw-semibold ${blog.content == '' ? '' : 'border-bottom pb-2'}">${blog.title}</h3>
                             <p id='${blog.id}'class="card-text fs-5">${blog.content.substr(0, 512)}</p>
                             ${imageCount > 0 ? imageContainer : ""}
                         </a>
-                        <div class="card-footer px-5">
+                        <div class="card-footer px-md-5">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center justify-content-start">
                                     <div id="${blog.id}" class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blog.likes}</div>
