@@ -25,7 +25,7 @@
             $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
             $row['likes'] = BlogModel::get_heart_count($row['id']);
 
-            $row['image_count'] = 0;
+            $row['images'] = BlogModel::get_images($row['id']);
             $row['comments'] = BlogModel::get_comment_count($row['id']);
 
             return $row;
@@ -55,7 +55,7 @@
                 $row['likes'] = BlogModel::get_heart_count($row['id']);
                 $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
 
-                $row['image_count'] = 0;
+                $row['images'] = BlogModel::get_images($row['id']);
                 $row['comments'] = BlogModel::get_comment_count($row['id']);
 
                 array_push($blogs, $row);
@@ -115,7 +115,7 @@
                 $row['likes'] = BlogModel::get_heart_count($row['id']);
                 $row['author'] = UserModel::get_user_by_id($row['author_id'])->username;
                 
-                $row['image_count'] = 0;
+                $row['images'] = BlogModel::get_images($row['id']);
                 $row['comments'] = BlogModel::get_comment_count($row['id']);
 
                 $blogs[] = $row;
@@ -186,6 +186,16 @@
             } catch (mysqli_sql_exception) {
                 return 0;
             }
+        }
+
+        public static function get_images(int $blog_id) {
+            $images = glob(dirname(__DIR__) . "/uploads/images/content/$blog_id/*");
+
+            foreach ($images as &$image) {
+                $image = substr($image, strrpos($image, '/') + 1);
+            }
+
+            return $images;
         }
     }
 ?>

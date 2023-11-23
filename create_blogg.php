@@ -54,6 +54,8 @@
                         <div class="card-body">
                             <?php
                                 $title_valid = true;
+
+                                $success = true;
                                 if (isset($_POST['submit'])) {
                                     $author = $_SESSION['user']->id;
 
@@ -64,13 +66,53 @@
 
                                     if ($title_valid) {
                                         $id = BlogModel::create_blog($author, $title, $content);
-                                        header("Location: blogg.php?id=$id");
-                                        exit;
+
+                                        if (count($_FILES["images"]['name']) > 1) {
+                                            $uploadOk = 1;
+                                            $target_dir = "uploads/images/content/$id";
+
+                                            if (!file_exists($target_dir)) {
+                                                mkdir($target_dir, 0777, true);
+                                            }
+
+                                            print_r($_FILES['images']);
+
+                                            foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
+                                                $targetFile = "$target_dir/$id" . basename($_FILES["images"]["name"][$key]);
+                                                $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+                                                if ($_FILES["images"]["size"][$key] > 25000000) {
+                                                    echo "Exceeded max size";
+                                                    $uploadOk = 0;
+                                                    break;
+                                                }
+    
+                                                // Only allow certain file formats
+                                                $allowedFormats = ["jpg", "jpeg", "png", "gif"];
+                                                if (!in_array($imageFileType, $allowedFormats)) {
+                                                    echo "Format not allowed";
+                                                    $uploadOk = 0;
+                                                    break;
+                                                }
+
+                                                if ($uploadOk) {
+                                                    move_uploaded_file($tmp_name, $targetFile);
+                                                }
+                                            }
+                                        }
+
+                                        if ($id) {
+                                            header("Location: blogg.php?id=$id");
+                                            exit;
+                                        } else {
+                                            $success = false;
+                                        }
+                                        
                                     }
                                 }
                             ?>
 
-                            <form method="POST" action="create_blogg.php">
+                            <form method="POST" action="create_blogg.php" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="title-input" class="form-label">Title</label>
                                     <input id="title-input" name="title" type="text" class="form-control" placeholder="An interesting title..." min="5" required>
@@ -89,14 +131,25 @@
                                     <textarea id="content-input" name="content" class="form-control" placeholder="Text (Optional)" style="height: 30vh"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="file" class="form-label">Choose Image(s)</label>
-                                    <input class="form-control" name="images" type="file" id="file" multiple>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="25000000" />
+                                    <label for="file" class="form-label">Choose Images (Up to 4 allowed)</label>
+                                    <input class="form-control" name="images[]" type="file" 
+                                    id="file" multiple accept=".jpg, .jpeg, .png">
                                 </div>
                                 <hr/>
                                 <div class="d-flex justify-content-end w-100">
                                     <a class="mx-1 btn btn-secondary" href="home.php">Cancel</a>
                                     <input type="submit" class="ms-1 btn btn-primary" name="submit" value="Blogg it!"/>
                                 </div>
+                                <?php
+                                    if (!$success) {
+                                        echo 
+                                        '<div class="alert alert-danger alert-dismissible p-2 mt-2" role="alert">
+                                            Something went wrong, please try again later.
+                                            <button class="btn-close m-1 p-2" aria-label="Close" data-bs-dismiss="alert"></button>
+                                        </div>';
+                                    }
+                                ?>
                             </form>
                         </div>
                     </div>

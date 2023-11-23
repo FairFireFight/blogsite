@@ -96,7 +96,7 @@ function SendComment() {
 
             response = JSON.parse(response);
 
-            AddComment(response);
+            AddComment(response, true);
 
             commentActive = false;
         },
