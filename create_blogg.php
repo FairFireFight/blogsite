@@ -67,7 +67,7 @@
                                     if ($title_valid) {
                                         $id = BlogModel::create_blog($author, $title, $content);
 
-                                        if (count($_FILES["images"]['name']) > 1) {
+                                        if (!empty($_FILES["images"]['name'][0])) {
                                             $uploadOk = 1;
                                             $target_dir = "uploads/images/content/$id";
 

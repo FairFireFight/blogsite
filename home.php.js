@@ -26,7 +26,7 @@ function LoadMore() {
             page++;
             
             jsonArray.forEach(blog => {
-                let imageCount = blog.image_count;
+                let imageCount = blog.images.length;
 
                 if (blog.content === null) {
                     blog.content = '';
@@ -37,14 +37,14 @@ function LoadMore() {
 
                 // yes this is probably THE worst way you could do this.
                 let imageContainer = `
-                    <div class="container mx-auto w-75">
+                    <div class="container px-5">
                         <div class="row">
-                            ${imageCount >= 1 ? '<img class="blog-image col p-0" src="' + blog.id + '/1"/>' : ""}
-                            ${imageCount >= 2 ? '<img class="blog-image col p-0" src="' + blog.id + '/2"/>' : ""}
+                            ${imageCount >= 1 ? '<img class="blog-image col rounded m-1 p-0" src="uploads/images/content/' + blog.id + '/' + blog.images[0] + '"/>' : ""}
+                            ${imageCount >= 2 ? '<img class="blog-image col rounded m-1 p-0" src="uploads/images/content/' + blog.id + '/' + blog.images[1] + '"/>' : ""}
                         </div>
                         <div class="row"> 
-                            ${imageCount >= 3 ? '<img class="blog-image col p-0" src="' + blog.id + '/3"/>' : ""}
-                            ${imageCount >= 4 ? '<img class="blog-image col p-0" src="' + blog.id + '/4"/>' : ""}
+                            ${imageCount >= 3 ? '<img class="blog-image col rounded m-1 p-0" src="uploads/images/content/' + blog.id + '/' + blog.images[2] + '"/>' : ""}
+                            ${imageCount >= 4 ? '<img class="blog-image col rounded m-1 p-0" src="uploads/images/content/' + blog.id + '/' + blog.images[3] + '"/>' : ""}
                         </div>
                     </div>`;
 
