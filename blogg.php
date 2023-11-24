@@ -9,9 +9,9 @@
     }
 
     if (isset($_SESSION['authenticated'])) {
-        $user_id = $_SESSION['user']->id;
+        $user = $_SESSION['user'];
     } else {
-        $user_id = false;
+        $user = false;
     }
 
     $id = $_GET['id'];
@@ -29,28 +29,53 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Blogg</title>
+        <title>Bloggers</title>
     </head>
     <body>
-        <header class="p-3 sticky-top text-light bg-dark">
+    <header class="px-3 py-1 sticky-top text-light bg-dark">
             <div class="container-md">
                 <div class="row justify-content-between align-items-center">
                     <!-- Site name col -->
                     <div class="col-3 p-0">
-                        <h2 class="p-0 fw-semibold"><a class="text-light text-decoration-none" href="home.php">Bloggers</a></h2>
+                        <h2 class="p-0 fw-semibold">Bloggers</h2>
                     </div>
 
-                    <!-- Spacer col -->
-                    <div class="col-6 p-0"></div>
+                    <!-- Search box col -->
+                    <div class="col-md-6 order-md-1 order-last p-0">
+                        <form action="home.php" method="get">
+                            <div class="input-group">
+                                <input id="search-bar" class="form-control" type="text" name="search" placeholder="Search Bloggs..." value='<?= isset($_GET['search']) ? $_GET['search'] : "" ?>'/>
+                                <input type="submit" class="input-group-text fw-semibold" value="Go 🔎" />
+                            </div>
+                        </form>
+                    </div>
 
                     <!-- Profile / Buttons -->
-                    <div class="w-100 d-block d-md-none"></div>
-                    <div class="col-md-3">
-                        <div class="row justify-content-end">
-                            <a class="col-md-3 btn mx-md-1 mx-0 mt-md-0 mt-1 btn-outline-secondary" href="login.php">Login</a>
-                            <a class="col-md-3 btn mt-md-0 mt-1 btn-primary" href="register.php">Sign up</a>
+                    <div class="col-3 order-md-1">
+                        <?php if (!$user) { ?>
+                        <!-- User not logged in, show login buttons-->
+                        <div class="row justify-content-end align-items-center">
+                            <a class="col-md-4 col-5 btn mx-1  mt-1 btn-outline-secondary" href="login.php">Login</a>
+                            <a class="col-md-4 col-5 btn mt-1 btn-primary" href="register.php">Sign up</a>
                         </div>
+
+                        <?php } else { ?>
+                        <!-- User logged in, show profile buttons-->
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle fw-semibold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="rounded-circle" src="uploads/images/profile_pictures/default.jpg" style="max-width: 50px"/>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="profile?id=<?= $user->id ?>">My Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <?php } ?>
                     </div>
+                    <div class="w-100 d-block d-md-none"></div>
                 </div>
             </div>
         </header>
@@ -90,7 +115,7 @@
             <div class="row">
                 <div class="col-md-8 border-end">
                     <?php
-                        if ($user_id) {
+                        if ($user->id) {
                     ?>
                         
                         <div class="w-100">

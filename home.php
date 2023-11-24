@@ -24,7 +24,7 @@
     </head>
 
     <body>
-        <header class="p-3 sticky-top text-light bg-dark">
+        <header class="px-3 py-1 sticky-top text-light bg-dark">
             <div class="container-md">
                 <div class="row justify-content-between align-items-center">
                     <!-- Site name col -->
@@ -33,7 +33,7 @@
                     </div>
 
                     <!-- Search box col -->
-                    <div class="col-6 p-0">
+                    <div class="col-md-6 order-md-1 order-last p-0">
                         <form action="home.php" method="get">
                             <div class="input-group">
                                 <input id="search-bar" class="form-control" type="text" name="search" placeholder="Search Bloggs..." value='<?= isset($_GET['search']) ? $_GET['search'] : "" ?>'/>
@@ -43,13 +43,12 @@
                     </div>
 
                     <!-- Profile / Buttons -->
-                    <div class="w-100 d-block d-md-none"></div>
-                    <div class="col-md-3">
+                    <div class="col-3 order-md-1">
                         <?php if (!$user) { ?>
                         <!-- User not logged in, show login buttons-->
                         <div class="row justify-content-end align-items-center">
-                            <a class="col-md-3 btn mx-md-1 mx-0 mt-md-0 mt-1 btn-outline-secondary" href="login.php">Login</a>
-                            <a class="col-md-3 btn mt-md-0 mt-1 btn-primary" href="register.php">Sign up</a>
+                            <a class="col-md-4 col-5 btn mx-1  mt-1 btn-outline-secondary" href="login.php">Login</a>
+                            <a class="col-md-4 col-5 btn mt-1 btn-primary" href="register.php">Sign up</a>
                         </div>
 
                         <?php } else { ?>
@@ -68,6 +67,7 @@
                         </div>
                         <?php } ?>
                     </div>
+                    <div class="w-100 d-block d-md-none"></div>
                 </div>
             </div>
         </header>

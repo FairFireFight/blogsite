@@ -9,7 +9,7 @@
         exit;
     }
 
-
+    $user = $_SESSION['user'];
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@
         <title>Create Blogg</title>
     </head>
     <body>
-        <header class="p-3 sticky-top text-light bg-dark">
+        <header class="px-3 py-1 sticky-top text-light bg-dark">
             <div class="container-md">
                 <div class="row justify-content-between align-items-center">
                     <!-- Site name col -->
@@ -35,9 +35,17 @@
                     <!-- Profile / Buttons -->
                     <div class="w-100 d-block d-md-none"></div>
                     <div class="col-md-3">
-                        <div class="row justify-content-end">
-                            <a class="col-md-3 btn mx-md-1 mx-0 mt-md-0 mt-1 btn-outline-secondary" href="login.php">Login</a>
-                            <a class="col-md-3 btn mt-md-0 mt-1 btn-primary" href="register.php">Sign up</a>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle fw-semibold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="rounded-circle" src="uploads/images/profile_pictures/default.jpg" style="max-width: 50px"/>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="profile?id=<?= $user->id ?>">My Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

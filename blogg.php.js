@@ -17,11 +17,14 @@ $.ajax({
 
         blog = JSON.parse(response);
         
+        // set document title.
+        document.title = blog.title + " | Bloggers";
+
         if (blog.content === null) {
             blog.content = '';
         }
 
-        // load content
+        // load content.
         let imageCount = blog.images.length;
 
         let imageContainer = `
