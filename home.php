@@ -1,6 +1,12 @@
 <?php
     require 'database/user_model.php';
     session_start();
+
+    if (isset($_SESSION['user'])) {
+        $user = $_SESSION['user'];
+    } else {
+        $user = false;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +18,6 @@
         <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script defer src="/common.js"></script>
         <script defer src="/home.php.js"></script>
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Home | Bloggers</title>
@@ -40,10 +45,28 @@
                     <!-- Profile / Buttons -->
                     <div class="w-100 d-block d-md-none"></div>
                     <div class="col-md-3">
-                        <div class="row justify-content-end">
+                        <?php if (!$user) { ?>
+                        <!-- User not logged in, show login buttons-->
+                        <div class="row justify-content-end align-items-center">
                             <a class="col-md-3 btn mx-md-1 mx-0 mt-md-0 mt-1 btn-outline-secondary" href="login.php">Login</a>
                             <a class="col-md-3 btn mt-md-0 mt-1 btn-primary" href="register.php">Sign up</a>
                         </div>
+
+                        <?php } else { ?>
+                        <!-- User logged in, show profile buttons-->
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle fw-semibold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="rounded-circle" src="uploads/images/profile_pictures/default.jpg" style="max-width: 50px"/>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="profile?id=<?= $user->id ?>">My Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -96,8 +119,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        </div>        
     </body>
 </html>
