@@ -10,8 +10,10 @@
 
     if (isset($_SESSION['authenticated'])) {
         $user = $_SESSION['user'];
+        $logged_in = true;
     } else {
         $user = false;
+        $logged_in = false;
     }
 
     $id = $_GET['id'];
@@ -115,7 +117,7 @@
             <div class="row">
                 <div class="col-md-8 border-end">
                     <?php
-                        if ($user->id) {
+                        if ($logged_in) {
                     ?>
                         
                         <div class="w-100">

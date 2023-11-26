@@ -70,7 +70,7 @@
                                     $title = $_POST['title'];
                                     $content = $_POST['content'];
                                     
-                                    $title_valid = strlen($title) > 5;
+                                    $title_valid = strlen($title) >= 5;
 
                                     if ($title_valid) {
                                         $id = BlogModel::create_blog($author, $title, $content);
