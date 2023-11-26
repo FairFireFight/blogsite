@@ -34,12 +34,14 @@
         <title>Bloggers</title>
     </head>
     <body>
-    <header class="px-3 py-1 sticky-top text-light bg-dark">
+        <header class="px-3 py-1 sticky-top text-light bg-dark">
             <div class="container-md">
                 <div class="row justify-content-between align-items-center">
                     <!-- Site name col -->
                     <div class="col-3 p-0">
-                        <h2 class="p-0 fw-semibold">Bloggers</h2>
+                        <h2 class="p-0 fw-semibold">
+                            <a class="text-light text-decoration-none" href="home.php">Bloggers</a>
+                        </h2>
                     </div>
 
                     <!-- Search box col -->
