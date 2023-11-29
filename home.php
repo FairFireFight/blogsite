@@ -59,7 +59,8 @@
                                     <img class="rounded-circle" src="uploads/images/profile_pictures/default.jpg" style="max-width: 50px"/>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="profile?id=<?= $user->id ?>">My Profile</a></li>
+                                    <li><a class="dropdown-item" href="profile?id=<?= $user->id ?>">Public Profile</a></li>
+                                    <li><a class="dropdown-item" href="dashboard.php">Dashboard</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
                                 </ul>

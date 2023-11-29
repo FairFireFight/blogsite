@@ -1,29 +1,22 @@
-let page = 1;
-let isActive = false
-function LoadMore() {
+function LoadBlogs() {
     let bottom = document.getElementById("container-bottom");
 
-    isActive = true;
+    contentContainer.innerHTML = '';
+    bottom.innerHTML = "<div class='spinner-border'></div>";
+
     // Make the request and get the data for the page
     $.ajax({
         url: 'libraries/blog_manager.php',
         type: 'GET',
-        data: {page: page,
-               search: search},
+        data: {user_id: userId},
         success: function (response) {
             let jsonArray = JSON.parse(response);
-            
-            if (jsonArray.length <= 3) {
-                bottom.innerHTML = "<div class='w-100 text-center alert alert-warning fs-5'>That's all the Bloggs 🙁</div>";
-            } else {
-                bottom.innerHTML = "<div class='spinner-border'></div>"
-            }
 
             if (jsonArray.length == 0) {
-                return;
+                bottom.innerHTML = "<div class='w-100 text-center alert alert-warning fs-5'>You haven't made any Bloggs yet.</div>";
+            } else {
+                bottom.innerHTML = "<div class='w-100 text-center alert alert-warning fs-5'>That's all of your Bloggs</div>"
             }
-
-            page++;
             
             jsonArray.forEach(blog => {
                 let imageCount = blog.images.length;
@@ -59,7 +52,7 @@ function LoadMore() {
                                     <div id="${blog.id}" class="btn ${blog.liked ? "btn-danger" : "btn-outline-danger"} fw-semibold me-2 d-inline" onclick="HeartBlog(this)">❤ ${blog.likes}</div>
                                     <a class="btn btn-outline-secondary fw-semibold me-2 d-inline" href="/blogg.php?id=${blog.id}">💬 ${blog.comments}</a>
                                 </div>
-                                <p class="align-middle text-end m-0">${timeSince(new Date(blog.blog_time))} by <a href="profile.php?id=${blog.author_id}">${blog.author}</a></p>
+                                <p class="align-middle text-end m-0">${timeSince(new Date(blog.blog_time))}</p>
                             </div>
                         </div>
                     </div>`;
@@ -72,29 +65,73 @@ function LoadMore() {
                 if (parseFloat(computedStyle.height) >  parseFloat(computedStyle.width) / 5) {
                     parElem.classList.add('p-fade');
                 }
-
-                isActive = false;
             });
             
         },
         error: function (error) {
             console.error('Error:', error);
             isActive = false;
-            bottom.innerHTML = "<button class='w-100 text-center alert alert-danger fs-5'>❌ Failed to load more bloggs... Click to try again</button>"
+            bottom.innerHTML = "<button class='w-100 text-center alert alert-danger fs-5'>❌ Failed to load Bloggs... Click to try again</button>"
         }
     });
 }
 
-window.addEventListener('scroll', function () {
-    var distanceToBottom = document.documentElement.scrollHeight - (window.innerHeight + window.scrollY);
-    var threshold = 75;
+function AddComment(comment, toTop = false) {
+    let commentHtml = `
+        <div class="my-2 border-bottom">
+            <a class="link-unstyled py-1 text-decoration-none" href="blogg.php?id=${comment.blog_id}">
+                <div class="d-flex">
+                    <div class="mx-1 w-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p title="${comment.time}" class="text-body-secondary fs-6 mb-0 mt-1">${timeSince(new Date(comment.time))}</p>
+                        </div>
+                        <p class="fs-5 mb-2">${comment.text}</p>
+                    </div>
+                </div>
+            </a>
+        </div>`;
 
-    if (distanceToBottom < threshold && !isActive) {
-        LoadMore();
-    }
-});
+    contentContainer.innerHTML += commentHtml;
+}
+
+function LoadComments() {
+    let bottom = document.getElementById("container-bottom");
+
+    contentContainer.innerHTML = '<div class="alert alert-info my-2">Click on a comment to see the original Blogg it was commented on.</div>';
+    bottom.innerHTML = "<div class='spinner-border'></div>";
+
+    $.ajax({
+        url: 'libraries/comment_manager.php',
+        type: 'GET',
+        data: {user_id: userId},
+        success: function (response) {
+            if (response == 'false') {
+                return;
+            }
+
+            response = JSON.parse(response);
+
+            if (response.length == 0) {
+                bottom.innerHTML = "<div class='w-100 text-center alert alert-warning fs-5'>You haven't left any comments yet.</div>";
+            } else {
+                bottom.innerHTML = "<div class='w-100 text-center alert alert-warning fs-5'>That's all of your comments.</div>"
+            }
+
+            response.forEach(comment => {
+                AddComment(comment);
+            });
+        },
+        error: function (err) {
+            alert('Failed to comment 💔')
+            console.error(err);
+            loadActive = false;
+        }
+    });
+};
+
 
 // code to run when page loads starts here
 let contentContainer = document.getElementById("content-container");
-let search = document.getElementById("search-bar").value;
-LoadMore();
+let userId = document.getElementById("user-id").innerText;
+
+LoadBlogs();

@@ -77,6 +77,21 @@
 
             break;
         }
+        // get a user's blogs
+        case isset($_GET['user_id']):
+            $blogs = BlogModel::get_blogs_by_author_id($_GET['user_id']);
+            
+            // add a liked key to each blog
+            if ($user_id != false) { 
+                $liked_blogs = $_SESSION['user']->get_liked_blogs();
+
+                foreach ($blogs as &$blog) {
+                    $blog['liked'] = in_array($blog['id'], $liked_blogs);
+                }
+            }
+
+            echo json_encode($blogs);
+            break;
         default:
             header("HTTP/1.1 400 Bad Request");
             exit;

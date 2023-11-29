@@ -4,7 +4,7 @@
 
     session_start();
 
-    /* disable for testing
+    //* disable for testing
     if (!(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
         header("HTTP/1.1 403 Forbidden");
         exit;
@@ -45,7 +45,11 @@
         case isset($_GET['user_id']):
             $comments = CommentModel::get_comments_by_user_id($_GET['user_id']);
 
-            echo json_encode($comments);
+            if ($comments === false) {
+                echo false;
+            } else {
+                echo json_encode($comments);
+            }
             break;
 
         // delete the comment

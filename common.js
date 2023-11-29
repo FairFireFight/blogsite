@@ -66,5 +66,8 @@ function timeSince(date) {
         return Math.floor(interval) + ` minute${Math.floor(interval) == 1 ? '' : 's' } ago`;
     }
 
+    // if time is less than 1 minute
+    // this is totally not because it 
+    // sometimes resulted in negative seconds
     return "Just Now";
 }
